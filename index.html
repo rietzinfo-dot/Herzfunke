@@ -217,6 +217,12 @@ footer h4{margin:12px 0 4px;font-size:13px;color:var(--ink)}
 .pick2 .pick{display:block;font-size:12px;margin-top:2px}
 .pick2 .chips,.pick2 .who{display:flex;flex-direction:column;align-items:stretch;gap:6px;margin:0}
 .pick2 .chip{font-size:13px;padding:6px 10px;border-radius:12px;text-align:left;white-space:normal;line-height:1.25}
+.save{display:block;width:100%;border:0;border-radius:16px;padding:16px;font:800 18px Nunito,sans-serif;color:#fff;cursor:pointer;
+  background:linear-gradient(90deg,#ff9f1c,var(--a),var(--b));box-shadow:0 6px 22px rgba(255,90,122,.45);animation:glow 2.6s ease-in-out infinite}
+.save:disabled{animation:none;opacity:.85;box-shadow:none}
+@keyframes glow{50%{box-shadow:0 6px 30px rgba(255,159,28,.6)}}
+.card.end .ghost{font-size:15px;padding:12px}
+.saverow{margin-top:14px;display:flex;flex-direction:column;gap:10px}
 footer{font-size:13px;color:var(--muted);text-align:center;margin-top:24px}
 footer a{color:inherit}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
@@ -334,15 +340,15 @@ footer a{color:inherit}
       <button class="big alt" onclick="restart()">Neue Frage</button>
     </div>
   </div>
-  <div class="row">
-    <button class="ghost" id="dSave" onclick="saveDiary()">📔 Ins Tagebuch</button>
+  <div class="saverow">
+    <button class="save" id="dSave" onclick="saveDiary()">📔 Speichern im Tagebuch</button>
     <button class="ghost kionly" onclick="toKI()">🤖 An eigene KI</button>
   </div>
   <p class="hint hidden" id="kiNote" style="margin-top:10px"></p>
   <div class="card end">
     <div class="row">
-      <button class="big alt" onclick="endApp()">App beenden</button>
-      <button class="big" onclick="tellFriends()">App an Freunde weitergeben</button>
+      <button class="ghost" onclick="endApp()">App beenden</button>
+      <button class="ghost" onclick="tellFriends()">App an Freunde weitergeben</button>
     </div>
     <p class="hint hidden" id="tfNote" style="margin-top:8px"></p>
   </div>
@@ -544,7 +550,7 @@ function showResult(){
   const ki=buildKI({n,O,n2,O2,movIdx,f,pv,pd});
   window._last={t:f.t,n:n,name:O.name,v:pv,d:pd,q:curQ,topic:topic,chain:history.slice(),next:n2?('Bild 2 – Zeichen '+n2+': „'+f2.t+'“ – '+P(f2.v)):'',
     vals:lines.slice(),n2:n2,name2:O2?O2.name:'',lines:movIdx.map(i=>({i:i,k:O.L[String(i+1)][1],w:O.L[String(i+1)][0]})),ki:ki};
-  const ds=document.getElementById('dSave');ds.disabled=false;ds.textContent='📔 Ins Tagebuch';
+  const ds=document.getElementById('dSave');ds.disabled=false;ds.textContent='📔 Speichern im Tagebuch';
   document.getElementById('kiNote').classList.add('hidden');
   document.getElementById('fq').value='';document.getElementById('btnF').disabled=true;
   go('s-res');
@@ -608,7 +614,7 @@ function saveDiary(){
 
 function renderDiary(){
   const l=dLoad(),box=document.getElementById('dList');
-  if(!l.length){box.innerHTML='<div class="card"><p>Noch keine Einträge. Tippe nach einem Ergebnis auf <b>„📔 Ins Tagebuch“</b>.</p></div>';return}
+  if(!l.length){box.innerHTML='<div class="card"><p>Noch keine Einträge. Tippe nach einem Ergebnis auf <b>„📔 Speichern im Tagebuch“</b>.</p></div>';return}
   let h='',m='';
   l.forEach((e,i)=>{
     const d=new Date(e.ts),mm=d.toLocaleDateString('de-DE',{month:'long',year:'numeric'});
