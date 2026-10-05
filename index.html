@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Herzfunke</title>
+<meta name="description" content="Deine Frage. Drei Denkanstöße. Frag weiter. Ab 16, ohne Login, nichts landet auf einem Server.">
+<meta name="theme-color" content="#ff5a7a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Herzfunke">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff6f3; --card:#ffffff; --ink:#2a1730; --muted:#7a6680;
+  --a:#ff5a7a; --b:#8a5cff; --c:#ffb547; --line:#2a1730; --soft:#ffe3ea;
+  --help:#e9f6ef; --helpink:#14583a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#170d1c; --card:#24152b; --ink:#fbeef6; --muted:#b9a3c2;
+    --soft:#3a1f40; --line:#fbeef6; --help:#12301f; --helpink:#bdf0d2;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#170d1c; --card:#24152b; --ink:#fbeef6; --muted:#b9a3c2;
+  --soft:#3a1f40; --line:#fbeef6; --help:#12301f; --helpink:#bdf0d2;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:17px;line-height:1.5;min-height:100vh}
+.wrap{max-width:520px;margin:0 auto;padding:20px 16px 40px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0}
+.logo{font-size:44px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.spark{display:inline-block;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.15) rotate(8deg)}}
+.tag{font-size:19px;font-weight:800;margin:6px 0 14px}
+.card{background:var(--card);border-radius:22px;padding:20px;box-shadow:0 10px 30px rgba(120,40,90,.12);margin:14px 0}
+.pill{display:inline-block;font-size:13px;font-weight:800;padding:4px 10px;border-radius:99px;background:var(--soft);color:var(--a)}
+.honest{font-size:14px;color:var(--muted);border-left:3px solid var(--b);padding-left:10px;margin-top:12px}
+button.big{width:100%;border:0;border-radius:16px;padding:16px;font:800 18px Nunito,sans-serif;color:#fff;background:linear-gradient(90deg,var(--a),var(--b));cursor:pointer;margin-top:14px}
+button.big:disabled{opacity:.45;cursor:default}
+button.ghost{background:none;border:2px solid var(--soft);color:var(--ink);border-radius:14px;padding:10px 14px;font:700 15px Nunito;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{border:2px solid var(--soft);background:none;color:var(--ink);border-radius:99px;padding:7px 13px;font:700 15px Nunito;cursor:pointer}
+.chip.on{background:var(--a);border-color:var(--a);color:#fff}
+textarea{width:100%;min-height:96px;border-radius:14px;border:2px solid var(--soft);background:var(--bg);color:var(--ink);padding:12px;font:16px Nunito;resize:vertical}
+.hint{font-size:14px;color:var(--muted)}
+.hidden,[hidden]{display:none!important}
+.lines{display:flex;flex-direction:column-reverse;gap:10px;margin:18px auto;width:180px}
+.ln{height:16px;display:flex;gap:18px;opacity:.15;transition:.4s}
+.ln.done{opacity:1}
+.ln span{flex:1;border-radius:5px;background:linear-gradient(90deg,var(--a),var(--b))}
+.ln.mv span{background:linear-gradient(90deg,var(--c),var(--a))}
+.tap{width:120px;height:120px;border-radius:50%;margin:10px auto;display:grid;place-items:center;font-size:46px;background:radial-gradient(circle,var(--soft),transparent 70%);border:3px dashed var(--a);cursor:pointer;user-select:none;transition:transform .15s}
+.tap:active{transform:scale(.92)}
+.vibe{font-size:19px;font-weight:800;margin:6px 0 12px}
+.d{display:flex;gap:12px;margin:12px 0;text-align:left}
+.d b{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--b);font-size:15px}
+.q{background:linear-gradient(135deg,var(--a),var(--b));color:#fff;border-radius:18px;padding:16px;font-weight:800;font-size:18px;margin-top:14px}
+.q small{display:block;font-weight:600;opacity:.85;font-size:13px;margin-bottom:4px}
+.yourq{font-style:italic;color:var(--muted);font-size:15px}
+.next{border-top:2px dashed var(--soft);margin-top:16px;padding-top:12px;font-size:15px}
+.help{background:var(--help);color:var(--helpink);border-radius:18px;padding:16px;margin:14px 0}
+.help a{color:inherit;font-weight:800}
+.help ul{margin:8px 0 0;padding-left:18px}
+.intro{font-size:17px;margin:6px 0 14px}
+.chain{font-size:14px;color:var(--muted);margin:0 0 8px}
+.more{margin-top:14px}
+.instbtn{display:block;width:100%;border:2px solid var(--a);background:none;color:var(--a);border-radius:16px;padding:12px;font:800 16px Nunito;cursor:pointer;margin-top:10px}
+.modal{position:fixed;inset:0;background:rgba(20,8,25,.55);display:grid;place-items:center;padding:16px;z-index:9}
+.modal .card{max-width:440px;width:100%}
+.note{font-size:14px;color:var(--muted)}
+.dbtn{position:fixed;top:12px;right:12px;z-index:5;border:0;border-radius:99px;padding:8px 14px;font:800 14px Nunito;color:#fff;background:linear-gradient(90deg,var(--a),var(--b));box-shadow:0 4px 14px rgba(120,40,90,.25);cursor:pointer}
+.diary{position:fixed;inset:0;background:var(--bg);z-index:8;overflow:auto}
+.month{font:800 15px Nunito;color:var(--b);margin:18px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.entry{background:var(--card);border-radius:16px;padding:14px;margin:8px 0;box-shadow:0 4px 14px rgba(120,40,90,.08)}
+.entry summary{cursor:pointer;font-weight:800;list-style:none}
+.entry summary small{display:block;font-weight:600;color:var(--muted)}
+.entry .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.saved{color:var(--b);font-weight:800}
+canvas.spark{display:block;touch-action:manipulation;cursor:pointer}
+.hero{width:100%;height:200px;margin:-4px 0 -8px}
+.tap{width:220px;height:220px;border:0;background:none;border-radius:0}
+.tap canvas{width:220px;height:220px}
+.who{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px}
+.who .chip{font-size:14px;padding:5px 11px}
+footer{font-size:13px;color:var(--muted);text-align:center;margin-top:24px}
+footer a{color:inherit}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.row>*{flex:1}
+</style>
+</head>
+<body>
+<button class="dbtn" id="dOpen" type="button">📔 Tagebuch</button>
+<div class="diary" id="diary" hidden><div class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+    <h2>Dein Tagebuch</h2><button class="ghost" id="dClose">Schließen</button></div>
+  <p class="hint">Deine Einträge liegen nur hier auf diesem Gerät – nie auf einem Server. Wenn andere dein Handy benutzen, können sie das Tagebuch sehen. Du kannst jeden Eintrag einzeln oder alles löschen.</p>
+  <div id="dList"></div>
+</div></div>
+<div class="wrap">
+
+<!-- START -->
+<section id="s-start">
+  <canvas class="spark hero" id="heroSpark" aria-label="Bunter Funke – tipp drauf"></canvas>
+  <div class="logo">Herzfunke <span class="spark">✦</span></div>
+  <div class="tag">Deine Frage. Drei Denkanstöße. Frag weiter.</div>
+  <div class="card">
+    <span class="pill">ab 16</span> <span class="pill">ohne Login</span> <span class="pill">nichts landet auf einem Server</span>
+    <p>Liebe, Freundschaft, Familie, du selbst – manchmal dreht man sich im Kreis. Herzfunke gibt dir keine Antwort von oben, sondern <b>neue Blickwinkel</b>, damit du selbst weiterdenkst.</p>
+    <p class="honest">Ehrlich gesagt: Die Denkanstöße stammen aus dem <b>I Ging</b>, einem über 2.500 Jahre alten chinesischen Weisheitsbuch – in heutige Sprache übersetzt. Das ist kein Hellsehen. Die Entscheidung triffst immer du.</p>
+    <button class="big" onclick="go('s-ask')">Los geht's ✦</button>
+    <button type="button" id="inst" class="instbtn">📲 Als App installieren</button>
+  </div>
+</section>
+
+<!-- FRAGE -->
+<section id="s-ask" class="hidden">
+  <div class="logo" style="font-size:30px">Herzfunke ✦</div>
+  <div class="card">
+    <h3>Worum geht's?</h3>
+    <div class="chips" id="chips"></div>
+    <h3 style="margin-top:10px">Deine Frage</h3>
+    <p class="hint">Tipp: Frag offen („Wie gehe ich mit … um?“) statt Ja/Nein.</p>
+    <textarea id="q" maxlength="240" placeholder="z. B. Wie zeige ich ihr, dass ich sie mag, ohne aufdringlich zu sein?"></textarea>
+    <p class="hint" style="margin:10px 0 0">Um wen geht's? <span id="whoAuto"></span></p>
+    <div class="who" id="who"></div>
+    <button class="big" id="btnAsk" disabled onclick="checkQ()">Weiter</button>
+  </div>
+  <div class="row"><button class="ghost" onclick="randomQ()">Ich weiß nicht, was ich fragen soll</button></div>
+</section>
+
+<!-- KRISE -->
+<section id="s-help" class="hidden">
+  <div class="card">
+    <h2>Hey, das klingt nach richtig viel.</h2>
+    <p>Bei so etwas ist Herzfunke nicht das Richtige – hier brauchst du echte Menschen, die zuhören. Die sind <b>kostenlos, anonym und für dich da</b>:</p>
+    <div class="help">
+      <ul>
+        <li><b>Nummer gegen Kummer</b> (Kinder- und Jugendtelefon): <a href="tel:116111">116 111</a> – Mo–Sa 14–20 Uhr</li>
+        <li><b>TelefonSeelsorge</b>, rund um die Uhr: <a href="tel:08001110111">0800 111 0 111</a> oder <a href="tel:08001110222">0800 111 0 222</a></li>
+        <li><b>JugendNotmail</b> – schreiben statt reden: <a href="https://www.jugendnotmail.de" target="_blank" rel="noopener">jugendnotmail.de</a></li>
+        <li>Akute Gefahr: <a href="tel:112">112</a></li>
+      </ul>
+    </div>
+    <p class="hint">Wenn du dich vertippt hast oder etwas anderes meintest, kannst du deine Frage anders formulieren.</p>
+    <button class="ghost" onclick="go('s-ask')">Zurück zur Frage</button>
+  </div>
+</section>
+
+<!-- RITUAL -->
+<section id="s-cast" class="hidden">
+  <div class="card" style="text-align:center">
+    <p class="yourq" id="echo"></p>
+    <h3 id="castTitle">Tippe 6× auf den Funken</h3>
+    <p class="hint">Jeder Tipp legt eine Linie – von unten nach oben. Denk dabei kurz an deine Frage.</p>
+    <div class="lines" id="lines"></div>
+    <div class="tap" id="tap"><canvas class="spark" id="tapSpark" aria-label="Funke – 6× tippen"></canvas></div>
+  </div>
+</section>
+
+<!-- ERGEBNIS -->
+<section id="s-res" class="hidden">
+  <div class="card">
+    <p class="yourq" id="echo2"></p>
+    <span class="pill" id="topicPill"></span>
+    <h2 id="rt" style="margin-top:8px;font-size:30px"></h2>
+    <p class="chain hidden" id="chain"></p>
+    <p class="intro" id="rv"></p>
+    <div id="rd"></div>
+    <div class="next hidden" id="rnext"></div>
+    <p class="honest" id="src"></p>
+  </div>
+  <div class="card more">
+    <h3>Frag weiter ✦</h3>
+    <p class="hint">Was willst du zu diesem Funken noch wissen? Deine nächste Frage baut auf diesem Ergebnis auf.</p>
+    <div class="chips" id="fchips"></div>
+    <textarea id="fq" maxlength="240" placeholder="z. B. Wie kann ich das konkret umsetzen?"></textarea>
+    <button class="big" id="btnF" disabled onclick="followUp()">Weiterfragen</button>
+  </div>
+  <div class="row">
+    <button class="ghost" id="dSave" onclick="saveDiary()">📔 Ins Tagebuch</button>
+    <button class="ghost" onclick="share()">Teilen</button>
+    <button class="ghost" onclick="restart()">Neue Frage</button>
+  </div>
+</section>
+
+<div class="modal" id="ihelp" hidden><div class="card"><h3>Als App installieren</h3><div id="ihBody"></div><button class="ghost" id="ihClose">Schließen</button></div></div>
+
+<footer>
+  Herzfunke ist ein Denkanstoß, keine Beratung und kein Ersatz für Gespräche mit Menschen, denen du vertraust.<br>
+  Brauchst du Hilfe? <a href="tel:116111">116 111</a> · <a href="tel:08001110111">0800 111 0 111</a><br>
+  Prototyp · Nova|LI · Marco Rietz
+</footer>
+</div>
+
+<script>
+const HEX = {"111111": [1, "Kiën / Das Schöpferische"], "111110": [10, "Lü / Das Auftreten"], "111101": [13, "Tung Jen / Die Gemeinschaft mit Menschen"], "111100": [25, "Wu Wang / Die Unschuld"], "111011": [44, "Gou / Das Entgegenkommen"], "111010": [6, "Sung / Der Streit"], "111001": [33, "Dun / Der Rückzug"], "111000": [12, "Pi / Die Stockung"], "110111": [43, "Guai / Der Durchbruch"], "110110": [58, "Dui / Das Heitere"], "110101": [49, "Go / Die Umwälzung"], "110100": [17, "Sui / Die Nachfolge"], "110011": [28, "Da Go / Des Großen Übergewicht"], "110010": [47, "Kun / Die Bedrängnis"], "110001": [31, "Hiän / Die Einwirkung"], "110000": [45, "Tsui / Das Sammeln"], "101111": [14, "Da Yu / Besitz von Großem"], "101110": [38, "Kui / Der Gegensatz"], "101101": [30, "Li / Das Haftende"], "101100": [21, "Schï Ho / Das Durchbeißen"], "101011": [50, "Ding / Der Tiegel"], "101010": [64, "Wei Dsi / Vor der Vollendung"], "101001": [56, "Lü / Der Wanderer"], "101000": [35, "Dsin / Der Fortschritt"], "100111": [34, "Da Dschuang / Des Großen Macht"], "100110": [54, "Gui Mei / Das heiratende Mädchen"], "100101": [55, "Fong / Die Fülle"], "100100": [51, "Dschen / Das Erregende"], "100011": [32, "Hong / Die Dauer"], "100010": [40, "Hiä / Die Befreiung"], "100001": [62, "Siao Go / Des Kleinen Übergewicht"], "100000": [16, "Yu / Die Begeisterung"], "011111": [9, "Siao Tschu / Des Kleinen Zähmungskraft"], "011110": [61, "Dschung Fu / Innere Wahrheit"], "011101": [37, "Gia Jen / Die Sippe"], "011100": [42, "I / Die Mehrung"], "011011": [57, "Sun / Das Sanfte"], "011010": [59, "Huan / Die Auflösung"], "011001": [53, "Dsiän / Die Entwicklung"], "011000": [20, "Guan / Die Betrachtung"], "010111": [5, "Hü / Das Warten"], "010110": [60, "Dsiä / Die Beschränkung"], "010101": [63, "Gi Dsi / Nach der Vollendung"], "010100": [3, "Dschun / Die Anfangsschwierigkeit"], "010011": [48, "Dsing / Der Brunnen"], "010010": [29, "Kan / Das Abgründige"], "010001": [39, "Giän / Die Hemmung"], "010000": [8, "Pi / Das Zusammenhalten"], "001111": [26, "Da Tschu / Des Großen Zähmungskraft"], "001110": [41, "Sun / Die Minderung"], "001101": [22, "Bi / Die Anmut"], "001100": [27, "I / Die Ernährung"], "001011": [18, "Gu / Die Arbeit am Verdorbenen"], "001010": [4, "Mong / Die Jugendtorheit"], "001001": [52, "Gen / Das Stillehalten"], "001000": [23, "Bo / Die Zersplitterung"], "000111": [11, "Tai / Der Friede"], "000110": [19, "Lin / Die Annäherung"], "000101": [36, "Ming I / Die Verfinsterung des Lichts"], "000100": [24, "Fu / Die Wiederkehr"], "000011": [46, "Sheng / Das Emporsteigen"], "000010": [7, "Schï / Das Heer"], "000001": [15, "Kien / Die Bescheidenheit"], "000000": [2, "Kun / Das Empfangende"]};
+const FUNKEN = {"1": {"t": "Volle Power", "v": "Du hast gerade mehr Kraft, als du dir selbst zutraust. Das ist eine Zeit, in der Dinge in Bewegung kommen, wenn du sie anstößt – nicht irgendwann, sondern jetzt. Wichtig ist nur, dass diese Kraft aus dir kommt und nicht aus dem Wunsch, jemandem etwas zu beweisen.", "d": ["Warte nicht darauf, dass dich jemand abholt oder dir die Erlaubnis gibt. Wenn dir etwas wichtig ist, darfst du den ersten Schritt machen – eine Nachricht, ein Gespräch, eine Entscheidung. Der Moment ist günstig.", "Stark sein heißt nicht laut sein. Echte Stärke zeigt sich darin, dass du dranbleibst, auch wenn es mal nicht sofort klappt. Wer ruhig und beständig ist, wirkt auf andere oft viel überzeugender als jemand, der groß auftritt.", "Spiel keine Rolle, nur um zu gewinnen. Wenn du startest, dann ehrlich und als du selbst. Alles, was du mit einer Maske gewinnst, musst du später mühsam festhalten – was du ehrlich gewinnst, bleibt."]}, "2": {"t": "Nicht drängeln", "v": "Gerade gewinnst du nicht, indem du führst, sondern indem du zuhörst und Raum lässt. Das fühlt sich vielleicht passiv an, ist es aber nicht: Wie ein Feld, das Samen aufnimmt, entsteht gerade etwas, das Zeit braucht. Dein Beitrag ist Offenheit und Geduld.", "d": ["Lass {d} Raum. Nicht jede Stille musst du sofort füllen, nicht jede Lücke mit einer Nachricht schließen. Oft zeigt sich erst in der Ruhe, was {n} wirklich {{will|wollen}}.", "Mitgehen ist keine Schwäche, solange du dabei du selbst bleibst. Du kannst dich auf {a} einlassen, ohne dich zu verbiegen. Achte darauf, ob du mitgehst, weil du willst – oder weil du Angst hast, sonst nicht dazuzugehören.", "Wer gerade alles erzwingen will, verliert die Richtung. Wenn du merkst, dass du drückst, kontrollierst oder ständig nachfragst, tritt einen Schritt zurück. Was wachsen soll, wächst nicht schneller, wenn man daran zieht."]}, "3": {"t": "Chaos am Anfang", "v": "Neue Sachen fühlen sich am Anfang fast immer wirr an – eine neue Freundschaft, ein erstes Verliebtsein, ein neuer Ort. Das Durcheinander ist kein Zeichen, dass es falsch ist, sondern dass gerade etwas entsteht. Wie bei einer Pflanze, die sich durch die Erde kämpft.", "d": ["Dass es holprig startet, heißt nicht, dass es scheitert. Gib dem Ganzen Zeit, sich zu sortieren. Viele der besten Beziehungen und Freundschaften haben komisch angefangen.", "Hol dir jemanden ins Boot, der schon weiter ist als du. Eine ältere Schwester, ein Freund, eine Lehrerin – jemand, der von außen draufschaut, sieht oft sofort, was du im Chaos übersiehst.", "Versuche nicht, alles auf einmal zu klären. Such dir einen einzigen Punkt aus, den du heute in Ordnung bringen kannst. Ordnung entsteht Schritt für Schritt, nicht mit einem großen Knall."]}, "4": {"t": "Noch am Lernen", "v": "Du musst nicht schon alles wissen – niemand tut das, auch die nicht, die so wirken. Gerade bist du in einer Phase, in der du lernst, und das ist völlig okay. Entscheidend ist, dass du wirklich offen bist für das, was du lernen kannst.", "d": ["Fragen ist cooler als so tun, als wüsstest du es. Wer ehrlich nachfragt, zeigt Mut. Wer immer so tut, als hätte er alles im Griff, bleibt allein mit seinen Unsicherheiten.", "Hör einen Rat nicht nur an, sondern probier ihn auch wirklich aus. Es bringt nichts, immer wieder dieselbe Frage zu stellen, wenn du die Antwort nie umsetzt. Erst im Tun merkst du, ob sie zu dir passt.", "Fehler gerade sind Training, keine Blamage. Peinliche Momente gehören zum Lernen dazu – auch in der Liebe. In ein paar Monaten lachst du vielleicht darüber und weißt genau, was du daraus mitgenommen hast."]}, "5": {"t": "Abwarten lohnt sich", "v": "Gerade ist nicht der Moment, etwas zu erzwingen. Wie bei Regenwolken, die sich sammeln: Es wird kommen, aber nicht auf Knopfdruck. Warten heißt hier nicht aufgeben, sondern vertrauen und sich bereit machen.", "d": ["Warten heißt nicht nichts tun. Nutze die Zeit, um Kraft zu sammeln, dich um dich selbst zu kümmern und herauszufinden, was du eigentlich willst. Dann bist du bereit, wenn der Moment da ist.", "Schreib die Nachricht ruhig – aber schick sie erst, wenn du wirklich ruhig bist. Was aus Ungeduld oder Nervosität geschickt wird, kommt oft anders an, als du es meinst.", "Vertrau darauf, dass gute Dinge nicht weglaufen. Wenn {n} wirklich zu dir {{gehört|gehören}}, {{verschwindet|verschwinden}} {n} nicht, nur weil du nicht sofort reagierst. Panik ist gerade ein schlechter Ratgeber."]}, "6": {"t": "Streit-Alarm", "v": "Da ist Streit oder Spannung, und vielleicht hast du sogar recht. Aber recht haben allein bringt dich gerade nicht weiter. Je länger ein Streit dauert, desto mehr kostet er – auch wenn man am Ende „gewinnt“.", "d": ["Frag dich ehrlich, was du eigentlich willst: gewinnen oder euch wiederfinden? Beides gleichzeitig klappt selten. Wenn {n} dir wichtig {{ist|sind}}, ist ein Kompromiss oft mehr wert als ein Sieg.", "Einen Streit bis zum bitteren Ende durchziehen kostet mehr, als er bringt. Manchmal ist es klüger, auf halbem Weg stehen zu bleiben und zu sagen: „Lass uns kurz Pause machen und später reden.“", "Manchmal hilft eine dritte Person, die neutral draufschaut. Nicht jemand, der für dich Partei ergreift, sondern jemand, dem ihr {{beide|alle}} vertraut. Von außen sieht man oft, wo das Missverständnis liegt."]}, "7": {"t": "Plan statt Panik", "v": "Wenn alles durcheinander geht, hilft vor allem eins: ein klares Ziel. Wie bei einer Gruppe, die nur dann stark ist, wenn alle wissen, wohin es geht. Mit Plan wird aus Unruhe Kraft.", "d": ["Entscheide zuerst, was du eigentlich willst. Solange du das selbst nicht weißt, reagierst du nur auf das, was andere tun. Wenn dein Ziel klar ist, ergeben sich viele Schritte fast von allein.", "Hör nicht auf jede Stimme gleichzeitig. Freunde, Familie, Social Media – alle haben eine Meinung. Such dir die ein, zwei Menschen aus, denen du wirklich vertraust, und bleib bei einer klaren Linie.", "Disziplin klingt langweilig, fühlt sich aber nach Freiheit an. Wer sich an seine eigenen Vorsätze hält, muss nicht ständig neu mit sich verhandeln. Das spart unglaublich viel Energie."]}, "8": {"t": "Zusammenhalt", "v": "Es geht gerade um Zugehörigkeit: Wo gehörst du hin, zu wem passt du? Echte Verbindung entsteht nicht durch Anpassung, sondern dadurch, dass du so bist, wie du bist – und die Richtigen bleiben.", "d": ["Sei der Mensch, bei dem {n} gern {{ist|sind}} – nicht der, der klammert. Menschen kommen gern zu jemandem, der ihnen Raum lässt und trotzdem da ist. Klammern bewirkt meistens das Gegenteil.", "Wer zu lange zögert, verpasst den Anschluss. Wenn du zu {d} gehören willst, zeig es auch. Warten, bis du perfekt bist, führt dazu, dass der Moment vorbeigeht.", "Zugehörigkeit entsteht durch Ehrlichkeit, nicht durch Anpassung. Wenn du dich verbiegen musst, um dazuzugehören, ist es nicht dein Platz. Die Leute, die dich so mögen, wie du bist, sind die, die bleiben."]}, "9": {"t": "Kleine Bremsen", "v": "Es hakt gerade an Kleinigkeiten, und das kann nerven. Aber das sind keine großen Mauern, sondern eher kleine Bremsen. Die Wolken sind da, der Regen kommt noch nicht – das geht vorbei.", "d": ["Schmeiß nicht alles hin, nur weil es gerade zäh ist. Gerade in solchen Phasen zeigt sich, ob dir etwas wirklich wichtig ist. Kleine Hindernisse sind kein Grund, eine ganze Freundschaft oder Beziehung infrage zu stellen.", "Mit Freundlichkeit kommst du jetzt weiter als mit Druck. Wer gerade sanft und geduldig bleibt, löst mehr Knoten als jemand, der mit dem Kopf durch die Wand will.", "Kleine Schritte zählen auch. Eine nette Nachricht, ein kurzes Gespräch, ein Lächeln – das wirkt jetzt mehr als große Gesten. Viele kleine Sachen ergeben am Ende den Durchbruch."]}, "10": {"t": "Vorsichtig, aber mutig", "v": "Du darfst dich trauen – aber mit Respekt und Gespür für die Situation. Das Bild ist, als würdest du einem Tiger auf den Schwanz treten und er beißt nicht, weil du freundlich und achtsam bist. Mut und gutes Benehmen gehören gerade zusammen.", "d": ["Sag, was du willst, aber ohne {a} zu überrollen. Du darfst Wünsche und Grenzen haben. Wie du sie aussprichst, entscheidet aber darüber, ob sie ankommen.", "Gute Manieren sind manchmal dein bester Schutz. Höflich zu bleiben, auch wenn {n} es nicht {{ist|sind}}, macht dich nicht schwach – im Gegenteil: Es zeigt, dass du dich selbst im Griff hast.", "Mut heißt nicht Leichtsinn. Schau genau hin, bevor du etwas Großes wagst: Wer ist beteiligt? Was steht auf dem Spiel? Wenn du achtsam bist, kannst du dich ziemlich viel trauen."]}, "11": {"t": "Gute Phase", "v": "Gerade passt vieles zusammen – zwischen dir und {d}, vielleicht auch in dir selbst. Das ist wie Frühling: Dinge blühen auf, Gespräche fallen leichter, man versteht sich. Genieß das bewusst, statt es einfach vorbeiziehen zu lassen.", "d": ["Nutze die gute Stimmung, um Dinge anzusprechen, die sonst schwer wären. Wenn es gut läuft, {{ist|sind}} {n} offener. Das ist ein guter Moment für ein ehrliches Gespräch.", "Teil dein Glück, statt es nur festzuhalten. Wenn es dir gut geht, gib etwas davon weiter – an Freunde, an Familie, an jemanden, dem es gerade nicht so gut geht. Glück wird dadurch nicht weniger.", "Gute Zeiten bleiben länger, wenn du sie pflegst. Auch wenn alles leicht wirkt: Kleine Aufmerksamkeiten, Danke-Sagen und Dranbleiben sorgen dafür, dass die gute Phase nicht so schnell kippt."]}, "12": {"t": "Funkloch", "v": "Gerade kommt wenig an, egal, wie viel du sendest. Vielleicht {{antwortet|antworten}} {n} nicht, vielleicht fühlst du dich nicht verstanden. Das ist eine Phase des Stillstands – nicht für immer, aber jetzt ist sie da.", "d": ["Nicht jede Stille musst du sofort mit Nachrichten füllen. Wer in ein Funkloch hineinruft, hört nur das eigene Echo. Manchmal ist es klüger, abzuwarten, bis die Verbindung wieder steht.", "Bleib dir treu, auch wenn {n} gerade komisch drauf {{ist|sind}}. Es ist verlockend, sich anzupassen, nur um wieder dazuzugehören. Aber in solchen Phasen zeigt sich, wer du wirklich bist.", "Zieh dich zurück, ohne bitter zu werden. Rückzug ist okay, Groll nicht. Nutze die Zeit für dich, deine Hobbys, deine Ruhe – und vertrau darauf, dass sich das Blatt wieder wendet."]}, "13": {"t": "Deine Leute", "v": "Es geht um Gemeinschaft – um Menschen, mit denen du wirklich verbunden bist. Gemeinsam geht mehr, aber nur, wenn es ehrlich ist und nicht auf heimlichen Absprachen oder Lästereien beruht.", "d": ["Echte Freundschaft hat keine geheimen Hintergedanken. Wenn du merkst, dass in einer Gruppe hinter dem Rücken geredet wird, ist das keine echte Gemeinschaft. Such die Leute, bei denen du offen sein kannst.", "Lade Leute ein, statt Grüppchen zu bilden. Wer andere ausschließt, um sich selbst wichtig zu fühlen, verliert am Ende. Offenheit macht eine Gruppe stärker, nicht schwächer.", "Wer offen ist, findet die, die zu ihm passen. Du musst nicht mit allen befreundet sein. Aber wenn du dich zeigst, wie du bist, ziehst du die Menschen an, die wirklich zu dir gehören."]}, "14": {"t": "Du hast viel zu geben", "v": "Du hast gerade richtig viel in der Hand – Talent, Aufmerksamkeit, vielleicht auch Glück. Das ist ein Geschenk, aber auch eine Verantwortung. Was du daraus machst, entscheidet, wie lange es bleibt.", "d": ["Was du hast, wird mehr wert, wenn du es teilst. Ob Zeit, Wissen oder einfach gute Laune – wer gibt, wird von anderen gemocht und unterstützt. Wer hortet, wird schnell einsam.", "Bleib bescheiden. Angeben schreckt genau die Menschen ab, die du eigentlich gern um dich hättest. Wer viel hat und trotzdem auf dem Boden bleibt, wirkt anziehend.", "Nutze deinen Vorsprung, um auch anderen zu helfen. Wenn du gerade gut dastehst, kannst du jemandem eine Hand reichen, dem es nicht so gut geht. Das zahlt sich anders zurück, als du denkst."]}, "15": {"t": "Echt statt protzig", "v": "Bescheidenheit wirkt gerade stärker als jeder große Auftritt. Das heißt nicht, dass du dich kleinmachen sollst – sondern dass du nicht ständig zeigen musst, wie toll du bist. Wer echt ist, braucht keine Show.", "d": ["Lass auch mal {a} glänzen. Wenn du {d} Raum gibst, kommt das zurück: Menschen merken sich, wer sie unterstützt hat. Das ist mehr wert als jeder Applaus.", "Du musst niemandem beweisen, wie toll du bist. Die Menschen, die dich wirklich mögen, mögen dich nicht wegen deiner Likes, Klamotten oder Erfolge. Sie mögen dich, weil du du bist.", "Wer zuhört, wird gemocht. Wer nur von sich redet, wird gemieden. Probier beim nächsten Gespräch einmal, mehr zu fragen als zu erzählen – und schau, was passiert."]}, "16": {"t": "Begeisterung", "v": "Deine Energie kann {a} mitreißen. Wenn dich etwas wirklich begeistert, {{spürt|spüren}} {n} das und {{will|wollen}} dabei sein. Diese Begeisterung ist gerade dein stärkster Hebel – solange sie echt ist.", "d": ["Steck {a} mit dem an, was dich wirklich begeistert. Ob ein Hobby, ein Plan oder eine Idee: Wenn du davon erzählst, mit leuchtenden Augen, ziehst du {a} mit. Das ist echter als jede Überredung.", "Achte darauf, ob {n} wirklich {{mitgeht|mitgehen}} oder nur {{nickt|nicken}}. Begeisterung kann auch überrollen. Frag nach, ob {n} genauso Lust {{hat|haben}}, und hör auf die Antwort.", "Freude teilen ist gut, {a} überrollen nicht. Wenn {n} nicht {{mitzieht|mitziehen}}, ist das kein Verrat. Jeder Mensch hat seine eigenen Sachen, die ihn begeistern."]}, "17": {"t": "Mitgehen – aber freiwillig", "v": "Es geht darum, wem oder was du folgst. Mitzugehen kann richtig gut sein, wenn dich jemand inspiriert und dir guttut. Aber es muss deine freie Entscheidung sein – nicht Gruppenzwang und nicht Angst, außen vor zu sein.", "d": ["Mach nichts mit, nur weil alle es machen. Ob es um eine Mutprobe geht, um Lästern oder darum, wann man „so weit sein“ sollte: Du bestimmst dein Tempo. Wer wirklich zu dir hält, akzeptiert das.", "Du darfst dich anpassen, aber nicht verbiegen. Kompromisse gehören zu jeder Freundschaft und Beziehung. Aber wenn du dich selbst nicht mehr wiedererkennst, ist eine Grenze überschritten.", "Wenn dir jemand guttut, darfst du ruhig folgen. Nicht jedes Mitgehen ist Schwäche. Von Menschen zu lernen, die dich weiterbringen, ist klug – solange es dir dabei gut geht."]}, "18": {"t": "Aufräumen", "v": "Da liegt etwas Altes herum, das nicht gut ist – ein Streit, eine Kränkung, ein Missverständnis. Das verschwindet nicht von allein, sondern wird mit der Zeit eher schlimmer. Die gute Nachricht: Was kaputt ist, kann wieder heil werden.", "d": ["Alte Fehler vergehen nicht von selbst. Wenn etwas zwischen dir und {d} steht, sprich es an – auch wenn es unangenehm ist. Unausgesprochenes gärt weiter.", "Nicht nur meckern, sondern einen ersten Schritt zum Reparieren machen. Es bringt wenig, immer wieder darüber zu klagen, wie schlecht etwas ist. Überleg dir, was du konkret tun kannst.", "Aufräumen fühlt sich hinterher richtig gut an. Nach einem klärenden Gespräch oder einer Entschuldigung ist es oft, als würde ein Fenster aufgehen. Gönn dir dieses Gefühl."]}, "19": {"t": "Es nähert sich was", "v": "Gerade bewegt sich etwas auf dich zu – eine Person, eine Chance, eine gute Zeit. Das ist ein Moment mit Rückenwind. Er dauert nicht ewig, darum lohnt es sich, ihn zu nutzen.", "d": ["Nutze den Rückenwind, solange er da ist. Wenn du schon länger etwas angehen wolltest, ist jetzt ein guter Zeitpunkt. Die Umstände spielen dir gerade in die Hände.", "Bleib freundlich und offen, auch wenn es gut läuft. Wer in guten Phasen arrogant wird, verliert schnell die Sympathie. Wer warmherzig bleibt, hat auch später noch Freunde.", "Freu dich, aber werd nicht übermütig. Gute Zeiten wechseln sich mit anderen ab – das ist normal. Wenn du das im Hinterkopf hast, kannst du das Gute umso mehr genießen."]}, "20": {"t": "Mal von oben schauen", "v": "Bevor du handelst, lohnt es sich, genau hinzusehen. Wie von einem Aussichtsturm aus kannst du gerade mehr erkennen, wenn du kurz Abstand nimmst. Und: {N} {{schaut|schauen}} auch auf dich – dein Verhalten spricht lauter als deine Worte.", "d": ["{N} {{merkt|merken}} mehr an deinem Verhalten als an deinen Worten. Wenn du sagst, dass {n} dir wichtig {{ist|sind}}, aber nie Zeit hast, {{glaubt|glauben}} {n} eher deinem Verhalten. Lass beides zusammenpassen.", "Schau dir die Lage an, als wärst du ein Zuschauer. Was würdest du einer Freundin raten, wenn sie in deiner Situation wäre? Oft sieht man von außen klarer als von innen.", "Wie du bist, wirkt stärker als alles, was du sagst. Du musst niemanden überzeugen. Sei einfach so, wie du sein willst – das spricht für sich."]}, "21": {"t": "Durchbeißen", "v": "Da ist ein echtes Problem, etwas steht dazwischen – und das geht nicht von allein weg. Das Bild ist ein Biss, der etwas durchtrennt: Es braucht eine klare Handlung, damit sich wieder etwas zusammenfügen kann.", "d": ["Sprich klar an, was im Weg steht, statt drumherum zu reden. Andeutungen, Status-Sprüche oder Schweigen führen nur zu mehr Missverständnissen. Klarheit ist gerade freundlicher als Vorsicht.", "Ein ehrliches Gespräch ist besser als zehn Andeutungen. Such dir einen ruhigen Moment und sag direkt, was dich stört. Bleib dabei bei dir: „Ich fühle mich …“ statt „Du bist immer …“.", "Klare Grenzen sind fair – für alle. Wenn {n} immer wieder etwas {{tut|tun}}, was dir nicht guttut, darfst du deutlich sagen: „Bis hierhin und nicht weiter.“ Das ist kein Angriff, sondern Selbstschutz."]}, "22": {"t": "Schöne Oberfläche", "v": "Gerade spielt das Äußere eine große Rolle – Aussehen, Style, wie etwas wirkt. Das ist schön und darf auch sein. Aber es ist nicht das, was eine Verbindung trägt. Schönheit ist der Schmuck, nicht das Fundament.", "d": ["Ein cooles Profilbild ersetzt kein echtes Gespräch. Online wirkt vieles perfekt. Ob {n} wirklich zu dir {{passt|passen}}, merkst du erst, wenn ihr euch im echten Leben begegnet und redet.", "Fühl genauer hin: {{Gefällt|Gefallen}} dir {n} wirklich oder nur die Fassade? Frag dich, was du an {d} magst, wenn du das Aussehen weglässt. Wenn dir viel einfällt – super. Wenn nicht, lohnt sich ein zweiter Blick.", "Kleine schöne Momente zählen, aber bau nicht nur darauf. Ein schönes Date, ein süßes Kompliment – genieß das. Aber echte Nähe wächst durch Vertrauen, nicht durch Glanz."]}, "23": {"t": "Etwas bröckelt", "v": "Gerade gehen Dinge kaputt oder lösen sich auf, Stück für Stück. Das ist schmerzhaft, aber es ist auch eine Zeit, in der du nicht alles retten kannst und musst. Manches darf gehen, damit Neues Platz hat.", "d": ["Halt fest, was dir wirklich wichtig ist, und lass Nebensachen los. Du kannst nicht an allen Fronten gleichzeitig kämpfen. Entscheide dich für das, was zählt.", "Nicht gegen alles kämpfen, sondern warten, bis es sich wieder dreht. In solchen Phasen ist Abwarten oft klüger als Aktionismus. Wer sich gerade zu sehr reinhängt, verbraucht sich.", "Pass auf kleine Lästereien und Sticheleien auf. Oft sind es nicht die großen Krachs, sondern viele kleine Sätze, die etwas kaputt machen. Mach da nicht mit – und schütze dich davor."]}, "24": {"t": "Neustart", "v": "Nach einem Tief kommt die Kraft zurück – ganz natürlich, wie das Licht nach der längsten Nacht. Das ist ein Wendepunkt. Du musst nicht alles sofort perfekt machen, es reicht, wieder anzufangen.", "d": ["Gönn dir den Neuanfang, aber übertreib es am Anfang nicht. Nach einer schweren Zeit will man oft alles auf einmal ändern. Fang lieber klein an, dann hält es länger.", "Kleine gute Gewohnheiten sind jetzt Gold wert. Genug schlafen, raus an die frische Luft, regelmäßig mit Menschen reden, die dir guttun – das sind die Bausteine für den Neustart.", "Du darfst zurückkommen – zu dir, zu Freunden, zu dem, was dir Spaß macht. Niemand erwartet, dass du so tust, als wäre nichts gewesen. Aber du darfst jetzt wieder nach vorne schauen."]}, "25": {"t": "Ohne Hintergedanken", "v": "Gerade liegst du richtig, wenn du einfach ehrlich und unverstellt handelst. Ohne Taktik, ohne Hintergedanken, ohne zu überlegen, was du dafür bekommst. Das ist die Kraft der Unschuld – nicht naiv, sondern echt.", "d": ["Mach Dinge, weil sie sich richtig anfühlen – nicht wegen Likes oder Anerkennung. Wenn du für andere spielst, verlierst du dich selbst. Was du aus dem Herzen tust, trägt.", "Ohne Taktik bist du gerade am überzeugendsten. Spielchen wie „Ich antworte erst in drei Stunden, damit ich nicht zu interessiert wirke“ bringen dich jetzt nicht weiter. Sei einfach ehrlich.", "Wenn du etwas nur machst, um etwas zu bekommen, spürt man das. Menschen haben ein feines Gespür für Berechnung. Wenn du ohne Erwartung gibst, kommt oft mehr zurück, als du denkst."]}, "26": {"t": "Kraft sammeln", "v": "Gerade ist nicht der Moment, alles rauszuhauen. Du hast viel Energie, viele Ideen, vielleicht viele Gefühle – aber sie werden stärker, wenn du sie erst sammelst. Dein Moment kommt noch, und dann bist du bereit.", "d": ["Halt deine Energie gerade zusammen, statt sie zu verpulvern. Nicht jedes Gefühl muss sofort ausgesprochen, nicht jede Idee sofort umgesetzt werden. Lass es reifen.", "Lernen, üben, vorbereiten – das zahlt sich aus. Wenn du gerade auf etwas hinarbeitest, nutze die Zeit, um besser zu werden. Wenn die Chance kommt, bist du dann voll da.", "Geduld ist hier kein Stillstand, sondern Training. Jeder Tag, an dem du ruhig bleibst und an dir arbeitest, macht dich stärker. Das ist nicht langweilig, das ist Aufbau."]}, "27": {"t": "Was dich nährt", "v": "Es geht darum, was du in dich hineinlässt – nicht nur Essen, sondern auch Gedanken, Inhalte, Menschen. Was dich nährt, macht dich stark. Was dich auslaugt, zieht dich runter. Gerade lohnt es sich, da genau hinzusehen.", "d": ["Welche Accounts, Leute und Gedanken tun dir wirklich gut? Schau einmal bewusst durch deinen Feed und deine Kontakte. Nach welchen fühlst du dich besser – und nach welchen schlechter?", "Sag weniger, was du später bereust. Worte sind auch eine Form von Nahrung – für andere. Was du sagst, kommt an und wirkt. Überleg kurz, bevor du etwas Verletzendes rausschickst.", "Kümmer dich auch um dich, nicht nur um andere. Wer immer nur für andere da ist, läuft irgendwann leer. Es ist nicht egoistisch, auf dich selbst zu achten – es ist notwendig."]}, "28": {"t": "Zu viel auf einmal", "v": "Die Last ist gerade größer, als eine Person allein tragen kann. Wie ein Balken, der sich unter zu viel Gewicht biegt. Das ist eine Ausnahmesituation – und in Ausnahmesituationen darf man anders handeln als sonst.", "d": ["Du musst das nicht allein tragen. Hol dir Unterstützung – bei Freunden, Familie oder jemandem, dem du vertraust. Um Hilfe zu bitten ist kein Versagen, sondern klug.", "Nicht mit Gewalt durch, sondern klug und Schritt für Schritt. Wenn alles zu viel ist, hilft es, eine Sache nach der anderen anzugehen. Mach eine Liste und fang mit dem Kleinsten an.", "Eine Ausnahmephase darf sich anders anfühlen als sonst. Wenn du gerade weniger schaffst, weniger Lust hast oder empfindlicher bist, ist das okay. Sei mit dir selbst genauso nachsichtig wie mit einer Freundin."]}, "29": {"t": "Durch die Tiefe", "v": "Es ist gerade schwer, vielleicht richtig schwer. Das Bild ist Wasser, das durch eine Schlucht fließt: Es bleibt nicht stecken, es fließt weiter, auch wenn der Weg eng und dunkel ist. Du kommst da durch.", "d": ["Bleib ehrlich zu dir, auch wenn du dich schwach fühlst. Es bringt nichts, dir selbst vorzumachen, dass alles okay ist. Erst wenn du anerkennst, wie es dir geht, kannst du etwas ändern.", "Wie Wasser: weiterfließen, auch wenn der Weg holprig ist. Du musst gerade keine großen Sprünge machen. Es reicht, jeden Tag ein bisschen weiterzugehen.", "Rede mit jemandem darüber. Schweres wird leichter, wenn man es teilt. Und wenn es sich zu schwer anfühlt: Unten auf der Seite stehen Nummern, wo dir jemand zuhört – kostenlos und anonym."]}, "30": {"t": "Klarheit", "v": "Du siehst gerade klarer als sonst – über dich, über andere, über das, was du willst. Das ist wie ein Feuer, das Licht gibt. Damit es nicht flackert oder ausgeht, braucht es etwas, woran es sich festhält.", "d": ["Klarheit braucht etwas, woran sie sich festhält: deine Werte. Überleg dir, was dir wirklich wichtig ist – Ehrlichkeit, Treue, Spaß, Freiheit? Daran kannst du dich halten, wenn es wieder unklar wird.", "Brenn nicht für alles gleichzeitig. Wer sich für zu viele Dinge oder Menschen gleichzeitig begeistert, ist schnell leer. Konzentrier dich auf das, was dir am meisten bedeutet.", "Leuchte für dich, nicht für Applaus. Wenn du etwas verstanden hast, musst du es nicht allen erzählen. Lebe es einfach – das wirkt stärker."]}, "31": {"t": "Anziehung", "v": "Da ist etwas zwischen euch – Anziehung, Interesse, vielleicht mehr. Und das Schöne: Es beruht auf Gegenseitigkeit. Das ist ein Moment, in dem sich zwei Menschen berühren können, wenn beide offen sind.", "d": ["Echte Anziehung braucht kein Spiel und keine Taktik. Wenn du {a} magst, darfst du es zeigen. Spielchen verunsichern nur beide Seiten.", "Bleib ruhig und offen, statt zu drängen. Anziehung wächst, wenn beide Raum haben. Wer zu schnell zu viel will, kann {a} verschrecken.", "Zeig Interesse, aber lass {d} Raum, auch von sich aus zu kommen. Eine Verbindung ist ein Hin und Her. Wenn nur du schreibst, fragst und planst, kannst du einmal abwarten, ob etwas zurückkommt."]}, "32": {"t": "Dranbleiben", "v": "Es geht um Dauer – um Dinge, die halten. Aber Dauer heißt nicht Starre. Eine Freundschaft oder Beziehung hält nicht, weil sich nichts ändert, sondern weil man sich immer wieder füreinander entscheidet.", "d": ["Beziehungen halten, wenn man sich immer wieder neu entscheidet. Nicht einmal und dann nie wieder, sondern immer wieder im Alltag. Das macht Nähe lebendig.", "Bleib bei deiner Linie, auch wenn es mal langweilig wird. Nach der ersten Aufregung kommt oft Alltag. Das ist kein schlechtes Zeichen, sondern zeigt, dass etwas echt wird.", "Kleine Rituale halten große Gefühle zusammen. Eine Gute-Nacht-Nachricht, ein fester Tag pro Woche, ein Insider-Witz – solche Kleinigkeiten tragen erstaunlich viel."]}, "33": {"t": "Rückzug ist okay", "v": "Manchmal ist Zurücktreten die stärkste Entscheidung. Nicht aus Feigheit, sondern weil du merkst, dass dir eine Situation oder ein Mensch gerade nicht guttut. Ein kluger Rückzug schützt dich – und lässt dir die Tür für später offen.", "d": ["Du musst nicht bleiben, wo es dir nicht guttut. Wenn du dich in einer Gruppe, einem Chat oder einer Beziehung ständig schlecht fühlst, darfst du gehen. Das ist dein Recht.", "Geh mit Würde, nicht im Streit. Ein Rückzug ohne Drama ist viel stärker als ein lauter Abgang. Du musst niemandem etwas beweisen, wenn du gehst.", "Abstand ist kein Aufgeben, sondern Selbstschutz. Manchmal braucht man Pause, um wieder klar zu sehen. Was danach kommt, kannst du immer noch entscheiden."]}, "34": {"t": "Große Kraft", "v": "Du bist gerade stark – vielleicht stärker, als die anderen um dich herum. Das ist toll, aber Stärke braucht Herz und Gerechtigkeit. Sonst wird aus Kraft schnell Druck, und das verletzt andere und dich selbst.", "d": ["Stärke ist nur cool, wenn sie fair bleibt. Wer seine Kraft nutzt, um andere kleinzumachen, verliert Respekt. Wer sie nutzt, um andere zu schützen, gewinnt ihn.", "Nicht alles, was du durchsetzen kannst, solltest du durchsetzen. Frag dich bei Entscheidungen: Ist das gut für alle – oder nur für mich? Manchmal ist Nachgeben die größere Stärke.", "Halt kurz inne, bevor du mit dem Kopf durch die Wand gehst. Wie ein Bock, der sich im Zaun verhakt: Wer nur drückt, bleibt stecken. Ein Moment Ruhe zeigt oft einen besseren Weg."]}, "35": {"t": "Es geht voran", "v": "Du kommst weiter, und {n} {{bemerkt|bemerken}} das. Das ist wie Sonnenaufgang – es wird Stück für Stück heller. Das ist eine gute Zeit, um dich zu zeigen und deine guten Seiten sichtbar werden zu lassen.", "d": ["Lass deine guten Seiten ruhig sichtbar werden. Falsche Bescheidenheit hilft dir gerade nicht. Wenn du etwas gut kannst, darfst du es zeigen.", "Erfolg fühlt sich besser an, wenn du ihn ehrlich verdient hast. Abkürzungen über Lügen oder Tricks zahlen sich langfristig nicht aus. Was du ehrlich erreichst, kann dir niemand nehmen.", "Bleib dankbar für die, die dir helfen. Hinter jedem Fortschritt stehen Menschen, die dich unterstützt haben. Ein Danke kostet nichts und bedeutet viel."]}, "36": {"t": "Licht dimmen", "v": "Gerade ist es klug, nicht alles von dir zu zeigen. Vielleicht sind Menschen in deiner Nähe, die es nicht gut mit dir meinen, oder die Stimmung ist schwierig. Dann ist es Schutz, dein Licht ein bisschen zu dimmen – ohne es auszumachen.", "d": ["Nicht jeder verdient gerade deine ganze Offenheit. Überleg genau, wem du was erzählst. Geheimnisse und Gefühle sind bei manchen Menschen nicht sicher.", "Bleib innerlich du selbst, auch wenn du außen leiser bist. Du kannst nach außen zurückhaltend sein und innerlich trotzdem genau wissen, wer du bist und was du willst.", "Dunkle Phasen gehen vorbei, dein Licht bleibt. Was in dir gut ist, verschwindet nicht, nur weil du es gerade nicht zeigst. Es wartet auf bessere Zeiten."]}, "37": {"t": "Familie & Zuhause", "v": "Es geht um dein Zuhause und die Menschen, mit denen du zusammenlebst. Jeder hat dort seinen Platz – du auch. Ein gutes Miteinander entsteht, wenn jeder seinen Teil beiträgt, statt nur auf die anderen zu schauen.", "d": ["Mach deinen Teil, ohne {a} zu verbessern. Es ist leicht, zu sehen, was {n} falsch {{macht|machen}}. Es wirkt aber mehr, wenn du einfach selbst mit gutem Beispiel vorangehst.", "Klare Absprachen verhindern viel Streit zuhause. Wer was macht, wann man zuhause sein soll, was okay ist und was nicht – wenn das klar ist, gibt es weniger Missverständnisse.", "Respekt fängt im Kleinen an – bei dir. Ein freundliches Wort, Zuhören, sich bedanken. Das verändert die Stimmung zuhause oft mehr als lange Diskussionen."]}, "38": {"t": "Ganz anders", "v": "Ihr tickt gerade sehr unterschiedlich – andere Meinungen, andere Gewohnheiten, andere Wünsche. Das ist kein Weltuntergang. Wie Feuer und Wasser können Gegensätze sich ergänzen, wenn man sie nicht zum Kampf macht.", "d": ["Gegensätze müssen nicht Streit bedeuten. Ihr müsst nicht alles gleich sehen, um euch zu mögen. Unterschiedliche Perspektiven können sogar bereichern.", "Konzentriert euch auf kleine Gemeinsamkeiten. Gerade wenn vieles trennt, hilft es, die Dinge zu finden, die ihr {{beide|alle}} mögt. Darauf lässt sich aufbauen.", "Nicht jeder muss dich verstehen, damit ihr euch respektiert. Respekt bedeutet, {a} gelten zu lassen, auch wenn man {a} nicht ganz versteht. Das reicht oft schon."]}, "39": {"t": "Hindernis", "v": "Da ist ein Berg vor dir, und es geht gerade nicht einfach weiter. Das ist frustrierend, aber auch eine Einladung, innezuhalten. Statt gegen den Berg zu rennen, lohnt es sich zu fragen: Was kann ich selbst ändern?", "d": ["Schau zuerst, was du selbst ändern kannst. Es ist leicht, {d} die Schuld zu geben. Aber die einzige Person, deren Verhalten du wirklich steuern kannst, bist du.", "Hol dir Rat, statt allein gegen die Wand zu laufen. Andere Menschen haben vielleicht schon ähnliche Hindernisse überwunden. Frag nach, wie sie es geschafft haben.", "Ein Umweg ist manchmal der kürzere Weg. Wenn der direkte Weg blockiert ist, gibt es oft einen anderen. Sei offen für Lösungen, an die du bisher nicht gedacht hast."]}, "40": {"t": "Endlich Erleichterung", "v": "Der Knoten löst sich, die Spannung lässt nach. Wie ein Gewitter, das die Luft reinigt: Danach atmet man auf. Jetzt ist die Zeit, durchzuatmen und nicht mehr alten Ärger mit sich herumzutragen.", "d": ["Vergib, was zu vergeben ist, und lass es ruhen. Wer nach der Lösung immer wieder alte Fehler aufwärmt, macht das Ganze wieder kaputt. Lass es gut sein.", "Feiern ja, aber nicht gleich übertreiben. Nach einer anstrengenden Zeit ist Erleichterung schön. Gönn sie dir – aber pass auf, dass du nicht gleich das nächste Chaos startest.", "Schnell zurück zur Normalität bringt Ruhe. Je eher der Alltag wieder einkehrt, desto stabiler wird das, was sich gerade gelöst hat."]}, "41": {"t": "Weniger ist mehr", "v": "Gerade gewinnst du, wenn du etwas weglässt. Weniger Drama, weniger Nachrichten, weniger Erwartungen. Was du abgibst, ist kein Verlust – es macht Platz für etwas, das dir wirklich guttut.", "d": ["Weniger Drama, weniger Nachrichten, weniger Stress. Überleg, wo du gerade zu viel investierst – an Zeit, an Gefühlen, an Gedanken. Ein bisschen weniger kann dich spürbar entlasten.", "Was du abgibst, macht Platz für Neues. Wenn du an etwas festhältst, das nicht mehr passt, ist kein Raum für Besseres. Loslassen ist manchmal der erste Schritt nach vorn.", "Verzicht aus freien Stücken fühlt sich überraschend gut an. Wenn du dich selbst entscheidest, auf etwas zu verzichten – Handyzeit, eine Gewohnheit, eine Person – fühlt sich das nach Freiheit an."]}, "42": {"t": "Mehr kommt dazu", "v": "Gerade wächst etwas, und es kommt mehr zu dir – vor allem, wenn du selbst gibst. Das ist eine Zeit, in der Großzügigkeit sich besonders auszahlt und gute Taten weite Kreise ziehen.", "d": ["Hilf jemandem, ohne etwas zu erwarten. Eine kleine Hilfe für jemanden, der es gerade schwer hat, kann mehr bewirken, als du denkst – für ihn und für dich.", "Nutze den Schwung für etwas, das dir wichtig ist. Wenn gerade vieles leicht geht, fang das an, was du schon lange vorhattest. Der Wind steht günstig.", "Gute Zeiten sind zum Säen da, nicht nur zum Ernten. Was du jetzt in Freundschaften, Hobbys oder dich selbst steckst, trägt später Früchte – auch wenn wieder schwierigere Zeiten kommen."]}, "43": {"t": "Jetzt reicht's", "v": "Es ist Zeit für eine klare Entscheidung. Etwas läuft schon zu lange schief, und du spürst: So geht es nicht weiter. Diese Klarheit ist wertvoll – wichtig ist nur, dass du sie fair und ohne Hass umsetzt.", "d": ["Sag deutlich, was nicht mehr geht – aber ohne Hass. Klare Worte sind gut, Beleidigungen nicht. Du kannst entschlossen sein und trotzdem respektvoll bleiben.", "Klarheit ist besser als ewiges Hin und Her. Wenn du weißt, was du willst, entscheide dich. Das ist für alle Beteiligten leichter als monatelange Unsicherheit.", "Bleib fair, auch wenn du entschlossen bist. Wer im Recht ist, braucht keine Rache. Ein klarer, ruhiger Schlussstrich wirkt stärker als jede Abrechnung."]}, "44": {"t": "Achtung, Versuchung", "v": "Etwas wirkt harmlos oder verlockend, ist es aber vielleicht nicht. Eine Person, ein Angebot, ein Gefühl, das sich gut anfühlt, aber dich in eine Richtung zieht, die nicht deine ist. Gerade lohnt sich ein zweiter Blick.", "d": ["Nicht alles, was sich gut anfühlt, ist gut für dich. Manche Menschen sind sehr charmant und meinen es trotzdem nicht ehrlich. Achte darauf, wie du dich nach dem Kontakt fühlst, nicht nur währenddessen.", "Kleine Grenzüberschreitungen werden schnell größer. Wenn {n} einmal etwas {{tut|tun}}, was dir nicht passt, und du nichts sagst, wird es oft mehr. Sag früh, was du nicht willst.", "Vertrau deinem Bauchgefühl, wenn etwas komisch ist. Du musst nicht erklären können, warum du dich unwohl fühlst. Das Gefühl allein ist Grund genug, vorsichtig zu sein."]}, "45": {"t": "Zusammenkommen", "v": "Es ist Zeit, Leute zusammenzubringen. Gemeinsam etwas erleben, feiern, Zeit miteinander verbringen. Damit eine Gruppe gut zusammenhält, braucht sie aber einen gemeinsamen Grund und jemanden, der Ruhe reinbringt.", "d": ["Eine gute Runde braucht einen ruhigen Mittelpunkt – sei das du. Wenn du Menschen zusammenbringst, achte darauf, dass sich alle willkommen fühlen. Das ist echte Führung.", "Klärt vorher, worum es euch eigentlich geht. Warum trefft ihr euch? Was wollt ihr zusammen erleben? Wenn das klar ist, gibt es weniger Streit und mehr Spaß.", "Gemeinsam feiern verbindet mehr als jeder Gruppenchat. Schreiben ist gut, Treffen ist besser. Plan etwas, wo ihr wirklich zusammen seid."]}, "46": {"t": "Langsam nach oben", "v": "Du wächst – nicht mit einem großen Sprung, sondern Schritt für Schritt, wie ein Baum, der jedes Jahr ein bisschen höher wird. Das ist eine gute Zeit, beständig dranzubleiben und dir Unterstützung zu holen.", "d": ["Jeden Tag ein bisschen bringt dich weiter als ein großer Sprung. Ob du dich traust, mehr zu reden, besser in der Schule zu werden oder selbstbewusster zu sein: Kleine Schritte zählen.", "Geh um Hindernisse herum, statt dagegen zu rennen. Ein Baum wächst um Steine herum. Wenn etwas im Weg ist, such einen anderen Weg nach oben.", "Hol dir Unterstützung von Leuten, die schon weiter sind. Mentoren, ältere Geschwister, Trainer – sie können dir zeigen, wie es geht. Du musst nicht alles selbst herausfinden."]}, "47": {"t": "Gerade richtig schwer", "v": "Du steckst fest, und es fühlt sich eng an. Vielleicht hört dir keiner zu, vielleicht fühlst du dich erschöpft. Das ist eine harte Phase – aber Menschen, die solche Zeiten durchstehen, gehen oft stärker daraus hervor.", "d": ["Wenn dir gerade keiner zuhört, sprechen Taten lauter als Worte. Statt dich immer wieder zu erklären, zeig durch dein Verhalten, wer du bist. Das wird irgendwann gesehen.", "Bleib innerlich ruhig, auch wenn außen alles drückt. Such dir kleine Inseln: Musik, ein Spaziergang, ein Gespräch mit einem guten Freund. Das hilft, nicht unterzugehen.", "Diese Phase ist nicht für immer. Auch wenn es sich gerade so anfühlt: Es wird sich ändern. Und wenn es zu schwer wird, gibt es Menschen, die zuhören – die Nummern stehen unten auf der Seite."]}, "48": {"t": "Deine Quelle", "v": "Es gibt etwas in dir, das immer da ist – wie ein Brunnen, der nie ganz austrocknet. Das kann eine Fähigkeit sein, ein Wert, eine tiefe Freundschaft. Jetzt lohnt es sich, diese Quelle zu pflegen.", "d": ["Kümmer dich um das, was dir auf Dauer Kraft gibt. Nicht um das, was nur kurz kickt, sondern um das, was dich wirklich trägt. Das kann Sport sein, Musik, Natur oder ein Mensch.", "Gute Freundschaften sind wie ein Brunnen: Man muss sie pflegen. Wenn du dich nie meldest, versandet er. Ein kurzes „Wie geht's dir wirklich?“ hält die Verbindung lebendig.", "Hol dir Kraft dort, wo sie wirklich ist – nicht beim endlosen Scrollen. Social Media fühlt sich manchmal wie Auftanken an, ist es aber selten. Probier bewusst aus, was dich wirklich auflädt."]}, "49": {"t": "Veränderung", "v": "Etwas will sich grundlegend ändern – in dir, in einer Beziehung, in deinem Alltag. Wie eine Schlange, die ihre alte Haut abstreift. Veränderung ist gut, wenn sie zum richtigen Zeitpunkt kommt und du weißt, warum du sie willst.", "d": ["Ändere es zum richtigen Zeitpunkt, nicht im Affekt. Große Entscheidungen, die man aus Wut oder Enttäuschung trifft, bereut man oft. Warte, bis du ruhig bist, und entscheide dann.", "Erklär {d}, warum dir die Veränderung wichtig ist. {N} {{versteht|verstehen}} dich besser, wenn du {a} mitnimmst. Dann wird aus Widerstand oft Unterstützung.", "Neu heißt nicht automatisch besser. Prüf ehrlich, ob die Veränderung wirklich etwas verbessert – oder ob du nur vor etwas wegläufst. Wenn es echt ist, wirst du es spüren."]}, "50": {"t": "Verwandlung", "v": "Aus dem, was du erlebt hast, wird gerade etwas Neues. Wie in einem Kochtopf, in dem einzelne Zutaten zu einem Gericht werden. Deine Erfahrungen – auch die schweren – verwandeln sich in Reife und Stärke.", "d": ["Erfahrungen werden zu Stärke, wenn du sie verarbeitest. Denk über das nach, was passiert ist. Was hast du gelernt? Was würdest du nächstes Mal anders machen?", "Gönn dir Zeit, Dinge in Ruhe zu verdauen. Nicht alles muss sofort verstanden werden. Manche Erlebnisse brauchen Wochen oder Monate, bis man ihren Sinn erkennt.", "Du wirst gerade reifer, auch wenn es sich nicht so anfühlt. Wachstum passiert oft unbemerkt. Irgendwann merkst du, dass du mit Situationen anders umgehst als früher."]}, "51": {"t": "Schreckmoment", "v": "Etwas hat dich erschreckt oder überrascht – wie ein Donnerschlag. Im ersten Moment fühlt sich das an, als würde der Boden wackeln. Aber nach dem Schreck kommt oft Klarheit, und wer ruhig bleibt, kann sogar lachen.", "d": ["Erst mal durchatmen, dann reagieren. Nach einem Schreck sind Gefühle stark. Wenn du sofort reagierst, sagst oder tust du vielleicht Dinge, die du später bereust.", "Ein Schock kann aufwecken und Klarheit bringen. Manchmal zeigt einem ein Schreckmoment, was wirklich wichtig ist oder was man übersehen hat. Nutze diese Erkenntnis.", "Wer nach dem Schreck lachen kann, ist stark. Das heißt nicht, dass du es nicht ernst nehmen sollst. Aber wenn du wieder lachen kannst, weißt du, dass du es geschafft hast."]}, "52": {"t": "Kopf aus, Ruhe an", "v": "Gerade hilft es, einfach still zu werden. Dein Kopf rattert vielleicht ununterbrochen: Was wäre wenn, was {{denkt|denken}} {n}, was soll ich schreiben? Wie ein Berg, der einfach ruht, darfst du kurz anhalten.", "d": ["Hör auf, Szenarien im Kopf durchzuspielen. Je öfter du dir ausmalst, was alles passieren könnte, desto unruhiger wirst du. Die meisten dieser Szenarien treten nie ein.", "Bleib im Hier und Jetzt, nicht im Was-wäre-wenn. Was ist gerade wirklich da? Was fühlst du in diesem Moment? Das zu spüren, bringt dich zurück zu dir.", "Handy weg, kurz durchatmen, dann erst entscheiden. Ein paar Minuten ohne Bildschirm, nur atmen, rausgucken – das wirkt Wunder. Danach siehst du oft klarer."]}, "53": {"t": "Schritt für Schritt", "v": "Gute Dinge brauchen Zeit – auch in der Liebe. Wie ein Baum, der langsam auf einem Berg wächst und dafür fest verwurzelt ist. Wer nichts überspringt, baut etwas, das lange hält.", "d": ["Überspring keine Phase, nur weil du ungeduldig bist. Kennenlernen, Vertrauen aufbauen, Nähe zulassen – jede Phase hat ihren Sinn. Wer zu schnell vorprescht, verpasst etwas.", "Langsam wachsendes Vertrauen hält länger. Wenn ihr euch Zeit lasst, wisst ihr irgendwann wirklich, woran ihr beieinander seid. Das ist viel stabiler als ein schneller Rausch.", "Genieß den Weg, nicht nur das Ziel. Die Zeit des Kennenlernens ist einzigartig und kommt nicht wieder. Statt nur zu fragen „Wann sind wir endlich zusammen?“, genieß das, was gerade ist."]}, "54": {"t": "Unklare Rolle", "v": "Ihr wisst gerade nicht genau, was ihr füreinander seid. Freunde? Mehr? Etwas dazwischen? Diese Unklarheit kann aufregend sein, aber auch verunsichern. Gerade ist es wichtig, auf dich selbst zu achten.", "d": ["Sei vorsichtig, wenn nichts klar ausgesprochen ist. Wenn du nicht weißt, woran du bist, ist es leicht, verletzt zu werden. Investiere nicht mehr, als du verlieren kannst.", "Mach dich nicht klein, nur um dazuzugehören. Wenn du merkst, dass du immer nur nimmst, was du kriegen kannst, ist das kein guter Platz. Du darfst mehr wollen.", "Klärende Fragen sind kein Druck, sondern Selbstachtung. Es ist okay zu fragen: „Was ist das zwischen uns?“ Die Antwort hilft dir, eine gute Entscheidung für dich zu treffen."]}, "55": {"t": "Höhepunkt", "v": "Gerade ist alles voll und groß – wie die Sonne am Mittag. Gefühle, Erlebnisse, vielleicht eine richtig schöne Zeit. Das ist ein Höhepunkt, und er verdient es, bewusst erlebt zu werden.", "d": ["Sei im Moment, statt schon an das Ende zu denken. Die Angst, dass es vorbeigeht, kann dir den Moment kaputt machen. Genieß, was jetzt da ist.", "Höhepunkte bleiben nicht – und das ist okay. Nach dem Mittag kommt der Nachmittag. Das ist kein Verlust, sondern der natürliche Lauf. Die Erinnerung bleibt.", "Teil die Fülle mit denen, die dir wichtig sind. Wenn es dir gut geht, lass andere daran teilhaben. Gemeinsame schöne Momente verbinden noch mehr."]}, "56": {"t": "Neu irgendwo", "v": "Du bist gerade fremd – in einer neuen Klasse, einer neuen Gruppe, vielleicht an einem neuen Ort. Wie ein Wanderer auf Reisen: Es ist spannend, aber auch unsicher. Gerade helfen Freundlichkeit und Vorsicht.", "d": ["Bei Neuem hilft Zurückhaltung mehr als Auftreten. Beobachte erst einmal, wie {n} {{tickt|ticken}}. Wer gleich laut auftritt, eckt oft an.", "Bleib höflich, auch wenn du dich unsicher fühlst. Freundlichkeit öffnet Türen, gerade wenn man neu ist. Ein Lächeln und ein ehrliches Interesse an anderen helfen viel.", "Du findest deinen Platz, nur nicht über Nacht. Es dauert, bis man irgendwo ankommt. Gib dir und {d} Zeit, dann wird aus fremd langsam vertraut."]}, "57": {"t": "Sanft dranbleiben", "v": "Leise und beständig erreichst du gerade mehr als laut. Wie der Wind, der überall hinkommt, weil er nicht aufhört zu wehen. Sanfter, wiederholter Einfluss wirkt tiefer als ein großer Auftritt.", "d": ["Wie Wind: immer wieder sanft, statt einmal mit Wucht. Wenn du {a} überzeugen oder etwas verändern willst, hilft Geduld mehr als ein großer Knall.", "Erklär deine Sicht geduldig, ohne Druck. {N} {{braucht|brauchen}} manchmal Zeit, um neue Gedanken anzunehmen. Wer drängt, erzeugt Widerstand.", "Kleine wiederholte Gesten wirken stärker als ein großer Auftritt. Jeden Tag ein bisschen Aufmerksamkeit, Freundlichkeit oder Hilfe – das baut eine Verbindung, die hält."]}, "58": {"t": "Gute Laune", "v": "Freude steckt gerade an. Du hast vielleicht Lust auf Leute, auf Lachen, auf Leichtigkeit. Das ist schön – echte Freude ist eine der stärksten Kräfte, um Menschen zu verbinden.", "d": ["Lach mit {d}, nicht über {a}. Gemeinsames Lachen verbindet, Auslachen trennt. Achte darauf, dass alle mitlachen können.", "Echte Freude braucht kein Theater. Du musst nicht übertreiben oder dich aufputschen, um Spaß zu haben. Die schönsten Momente sind oft einfach.", "Teil deine gute Laune, aber bleib ehrlich. Wenn es dir gut geht, zeig es. Aber du musst auch nicht so tun, als wäre alles super, wenn es das nicht ist."]}, "59": {"t": "Eis brechen", "v": "Etwas Starres löst sich – wie Eis, das im Frühling schmilzt. Vielleicht ist zwischen dir und {d} Kälte entstanden. Jetzt ist ein guter Moment, das Eis zu brechen und wieder zusammenzufinden.", "d": ["Mach den ersten Schritt auf {a} zu. Oft warten beide Seiten darauf, dass die andere anfängt. Wenn du es machst, zeigst du Größe.", "Ein gemeinsames Erlebnis verbindet mehr als lange Diskussionen. Statt alles totzureden, unternehmt etwas zusammen. Lachen und Erleben lösen oft mehr als Worte.", "Lass Stolz und Groll schmelzen. Recht zu behalten ist nichts wert, wenn man dafür eine Freundschaft verliert. Manchmal reicht ein „Lass uns das vergessen“."]}, "60": {"t": "Gesunde Grenzen", "v": "Grenzen schützen dich und machen Beziehungen sicherer. Aber zu strenge Grenzen machen unglücklich – wie ein Damm, der so hoch ist, dass gar kein Wasser mehr fließt. Es geht um das richtige Maß.", "d": ["Sag Nein, wo du Nein meinst. Du musst dich nicht rechtfertigen, wenn du etwas nicht willst. Ein klares Nein ist eine vollständige Antwort.", "Übertreib es nicht mit Regeln, die dich selbst einengen. Wenn du dir selbst zu viele Verbote auferlegst, wirst du starr und unglücklich. Grenzen sollen dich schützen, nicht einsperren.", "Gute Grenzen machen Beziehungen sicherer, nicht kälter. Wenn beide wissen, was okay ist und was nicht, entsteht Vertrauen. Das ist die Basis für echte Nähe."]}, "61": {"t": "Ehrlich von innen", "v": "Echtheit erreicht sogar Menschen, die schwer zugänglich sind. Wenn du aus dem Herzen sprichst, ohne Fassade, berührt das. Das ist die Kraft der inneren Wahrheit – sie wirkt, auch wenn du sie nicht laut aussprichst.", "d": ["Sei ehrlich, auch wenn es Mut kostet. Gefühle zu zeigen ist nicht peinlich, sondern stark. Wer ehrlich ist, gibt {d} die Chance, ehrlich zurückzukommen.", "Lass Vorurteile weg und hör wirklich zu. Manchmal denkt man schon zu wissen, was {n} {{meint|meinen}}. Wer wirklich zuhört, entdeckt oft etwas ganz anderes.", "Wer echt ist, wird von den Richtigen gefunden. Nicht alle werden dich mögen, wenn du du selbst bist. Aber die, die dich mögen, meinen es dann auch wirklich."]}, "62": {"t": "Kleine Schritte", "v": "Gerade ist nicht die Zeit für Riesenschritte. Wie ein kleiner Vogel, der nicht zu hoch fliegen sollte: Bleib nah am Boden, sei gewissenhaft im Kleinen. Das bringt dich sicherer ans Ziel.", "d": ["Lieber gewissenhaft im Kleinen als großspurig im Großen. Kleine Sachen gut machen – pünktlich sein, Versprechen halten, zuhören – macht dich vertrauenswürdig.", "Bleib auf dem Boden, auch wenn du hoch hinaus willst. Große Träume sind toll, aber der Weg dorthin besteht aus vielen kleinen Schritten. Konzentrier dich auf den nächsten.", "Überprüf lieber zweimal, bevor du etwas Großes postest oder sagst. Was einmal raus ist, ist raus. Ein kurzer Moment des Nachdenkens kann dir viel Ärger ersparen."]}, "63": {"t": "Geschafft – aber Achtung", "v": "Du hast etwas erreicht – das ist toll. Aber genau jetzt ist die Gefahr groß, nachlässig zu werden. Wie bei einem Feuer, das brennt: Es braucht weiter Aufmerksamkeit, sonst geht es aus oder gerät außer Kontrolle.", "d": ["Nach dem Ziel ist vor der Pflege. Wenn du endlich zusammen bist oder eine Freundschaft gerettet hast, fängt die eigentliche Arbeit erst an: dranbleiben.", "Ruh dich aus, aber schlaf nicht ein. Du darfst stolz sein und genießen. Aber pass auf, dass du nicht alles als selbstverständlich nimmst.", "Kleine Risse früh bemerken spart später große Probleme. Wenn dir etwas komisch vorkommt, sprich es an, solange es klein ist. Das ist viel leichter als später."]}, "64": {"t": "Fast da", "v": "Du bist kurz vor dem Ziel – das spürst du. Aber gerade die letzten Schritte sind die heikelsten. Wie ein junger Fuchs, der übers Eis geht: Kurz vor dem Ufer wird man leicht übermütig. Bleib aufmerksam.", "d": ["Die letzten Schritte brauchen am meisten Vorsicht. Wenn es fast geschafft ist, lässt die Konzentration nach. Gerade dann passieren die meisten Fehler.", "Freu dich auf das, was kommt, aber renn nicht los. Vorfreude ist schön. Aber wenn du zu schnell bist, stolperst du vielleicht kurz vor dem Ziel.", "Wenn du geduldig bleibst, klappt es. Du hast schon so viel geschafft. Jetzt noch ein bisschen Ruhe und Sorgfalt – dann bist du da."]}};
+const TOPICS = ["💘 Liebe","🫂 Freundschaft","🏠 Familie","🌱 Ich selbst","🎓 Schule & Zukunft"];
+const SAMPLE = [
+  "Wie zeige ich jemandem, dass ich ihn mag?",
+  "Wie gehe ich mit Streit in meiner Freundesgruppe um?",
+  "Was brauche ich gerade, um mich wohler zu fühlen?",
+  "Wie spreche ich mit meinen Eltern über etwas Wichtiges?",
+  "Soll ich mich trauen, etwas Neues anzufangen?"
+];
+// Krisenwörter: dann KEIN Orakel, sondern Hilfe
+const CRISIS = ["umbring","suizid","selbstmord","nicht mehr leben","will sterben","sterben will","tot sein","mich töten","ritz","selbstverletz","schneide mich","vergewalt","missbrauch","missbraucht","schlägt mich","schlagen mich","prügelt mich","angefasst","erpress","nacktbild","nacktfoto","magersucht","bulimie","kotze mich","hungere","schwanger","keinen ausweg","hoffnungslos","will verschwinden"];
+
+const FOLLOW=["Wie setze ich das konkret um?","Was, wenn es nicht klappt?","Was bedeutet das für die andere Person?","Was ist mein nächster Schritt?"];
+let topic = TOPICS[0], lines = [], history = [], curQ = '';
+
+function go(id){document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');scrollTo(0,0)}
+const chips=document.getElementById('chips');
+TOPICS.forEach((t,i)=>{const b=document.createElement('button');b.className='chip'+(i?'':' on');b.textContent=t;b.onclick=()=>{topic=t;chips.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===b))};chips.appendChild(b)});
+const qEl=document.getElementById('q'), btnAsk=document.getElementById('btnAsk');
+// ---- Wer ist gemeint? sie / er / eine Person / mehrere / allgemein ----
+const WHO={f:{l:'👩 sie',n:'sie',a:'sie',d:'ihr',sg:1},m:{l:'👨 er',n:'er',a:'ihn',d:'ihm',sg:1},
+  s:{l:'👤 eine Person',n:'die Person',a:'die Person',d:'der Person',sg:1},p:{l:'👥 mehrere',n:'sie',a:'sie',d:'ihnen',sg:0},
+  x:{l:'🌱 nur ich / allgemein',n:'die anderen',a:'die anderen',d:'den anderen',sg:0}};
+let who='x',whoManual=false;
+function detectWho(q){
+  const t=' '+q.toLowerCase().replace(/[^a-zäöüß\s-]/g,' ')+' ';
+  const has=r=>r.test(t);
+  if(has(/ (die anderen|den anderen|meine freunde|meinen freunden|meine eltern|meinen eltern|eltern|clique|gruppe|klasse|leute|freundinnen|geschwister|ihnen|sie alle|sie sind|sie haben|sie wollen|sie mögen) /))return 'p';
+  if(has(/ (ihn|ihm|er|mein freund|meinem freund|meinen freund|meines freundes|freund|jungen?|typ|bruder|vater|papa|mein ex|meinem ex|meinen ex) /))return 'm';
+  if(has(/ (ihr|sie|meine freundin|meiner freundin|freundin|mädchen|schwester|mutter|mama|meine ex|meiner ex) /))return 'f';
+  if(has(/ (schwarm|crush|person|jemand|jemanden|jemandem|date) /))return 's';
+  return 'x';
+}
+const whoBox=document.getElementById('who');
+function renderWho(){whoBox.innerHTML='';Object.keys(WHO).forEach(k=>{const b=document.createElement('button');b.type='button';b.className='chip'+(k===who?' on':'');b.textContent=WHO[k].l;b.onclick=()=>{who=k;whoManual=true;renderWho()};whoBox.appendChild(b)})}
+renderWho();
+qEl.addEventListener('input',()=>{if(!whoManual){who=detectWho(qEl.value);renderWho()}});
+// Platzhalter in den Texten: {n}/{a}/{d} (+ großgeschrieben {N}/{A}/{D}), {{Einzahl|Mehrzahl}}
+function P(s){const w=WHO[who];
+  return s.replace(/\{\{([^|}]*)\|([^}]*)\}\}/g,(_,a,b)=>w.sg?a:b)
+          .replace(/\{([nadNAD])\}/g,(_,c)=>{const v=w[c.toLowerCase()];return c===c.toUpperCase()?v[0].toUpperCase()+v.slice(1):v});}
+qEl.addEventListener('input',()=>btnAsk.disabled=qEl.value.trim().length<5);
+function randomQ(){qEl.value=SAMPLE[Math.floor(Math.random()*SAMPLE.length)];btnAsk.disabled=false}
+
+const isCrisis=t=>CRISIS.some(w=>t.toLowerCase().includes(w));
+function checkQ(){
+  if(isCrisis(qEl.value)){go('s-help');return}
+  history=[];startCast(qEl.value.trim());
+}
+function startCast(q){
+  curQ=q;lines=[];renderLines();
+  document.getElementById('echo').textContent='„'+q+'“';
+  document.getElementById('castTitle').textContent='Tippe 6× auf den Funken';
+  document.getElementById('tap').style.visibility='visible';
+  go('s-cast');
+}
+// Exakte Schafgarben-Wahrscheinlichkeiten wie im Nova|LI-Orakel
+function castLineValue(){const r=Math.random();if(r<0.0589)return 6;if(r<0.3619)return 7;if(r<0.8031)return 8;return 9}
+function renderLines(){
+  const box=document.getElementById('lines');box.innerHTML='';
+  for(let i=0;i<6;i++){const v=lines[i];const d=document.createElement('div');
+    d.className='ln'+(v?' done':'')+((v===6||v===9)?' mv':'');
+    const yang=(v===7||v===9);d.innerHTML=v?(yang?'<span></span>':'<span></span><span></span>'):'<span></span>';box.appendChild(d)}
+}
+function castOne(){
+  if(lines.length>=6)return;
+  lines.push(castLineValue());renderLines();
+  if(navigator.vibrate)navigator.vibrate(20);
+
+  const left=6-lines.length;
+  document.getElementById('castTitle').textContent=left?('Noch '+left+'×'):'Dein Funke ist da ✦';
+  if(!left){document.getElementById('tap').style.visibility='hidden';setTimeout(showResult,900)}
+}
+function key(y){return (y[3]?'1':'0')+(y[4]?'1':'0')+(y[5]?'1':'0')+(y[0]?'1':'0')+(y[1]?'1':'0')+(y[2]?'1':'0')}
+function showResult(){
+  const yang=lines.map(v=>v===7||v===9);
+  const [n,name]=HEX[key(yang)];
+  const f=FUNKEN[n];
+  document.getElementById('echo2').textContent='„'+curQ+'“';
+  const ch=document.getElementById('chain');
+  if(history.length){ch.innerHTML='Baut auf: '+history.map(h=>'„'+h+'“').join(' → ');ch.classList.remove('hidden')} else ch.classList.add('hidden');
+  document.getElementById('topicPill').textContent=topic;
+  document.getElementById('rt').textContent=f.t;
+  const pv=P(f.v),pd=f.d.map(P);
+  document.getElementById('rv').textContent=pv;
+  document.getElementById('rd').innerHTML=pd.map((x,i)=>'<div class="d"><b>'+(i+1)+'</b><div>'+x+'</div></div>').join('');
+  const moving=lines.some(v=>v===6||v===9), nx=document.getElementById('rnext');
+  if(moving){
+    const y2=lines.map(v=>v===9?false:v===6?true:(v===7));
+    const [n2]=HEX[key(y2)];const f2=FUNKEN[n2];
+    nx.innerHTML='<b>Wohin es sich bewegt:</b> „'+f2.t+'“ – '+P(f2.v);nx.classList.remove('hidden');
+  } else nx.classList.add('hidden');
+  document.getElementById('src').textContent='Quelle: I Ging, Zeichen '+n+' – '+name+' (Übersetzung R. Wilhelm), frei in Jugendsprache übertragen.';
+  window._last={t:f.t,n:n,name:name,v:pv,d:pd,q:curQ,topic:topic,chain:history.slice(),next:moving?nx.textContent:''};
+  const ds=document.getElementById('dSave');ds.disabled=false;ds.textContent='📔 Ins Tagebuch';
+  document.getElementById('fq').value='';document.getElementById('btnF').disabled=true;
+  go('s-res');
+}
+function share(){
+  const txt='Mein Herzfunke: „'+_last.t+'“ ✦ Probier es selbst:';
+  if(navigator.share)navigator.share({title:'Herzfunke',text:txt,url:location.href}).catch(()=>{});
+  else navigator.clipboard&&navigator.clipboard.writeText(txt+' '+location.href);
+}
+function restart(){qEl.value='';btnAsk.disabled=true;history=[];who='x';whoManual=false;renderWho();go('s-ask')}
+const fq=document.getElementById('fq'),btnF=document.getElementById('btnF'),fchips=document.getElementById('fchips');
+fq.addEventListener('input',()=>btnF.disabled=fq.value.trim().length<5);
+FOLLOW.forEach(x=>{const b=document.createElement('button');b.className='chip';b.textContent=x;b.onclick=()=>{fq.value=x;btnF.disabled=false};fchips.appendChild(b)});
+function followUp(){
+  if(isCrisis(fq.value)){go('s-help');return}
+  if(!whoManual){const w=detectWho(fq.value);if(w!=='x')who=w}
+  history.push(_last.t);startCast(fq.value.trim());
+}
+// ---- Tagebuch (wie im 49-Bit-Orakel, nur lokal per localStorage) ----
+const DKEY='herzfunke-tagebuch';
+function dLoad(){try{return JSON.parse(localStorage.getItem(DKEY))||[]}catch(e){return[]}}
+function dStore(l){try{localStorage.setItem(DKEY,JSON.stringify(l));return true}catch(e){return false}}
+function saveDiary(){
+  const l=dLoad();const e=Object.assign({ts:Date.now()},_last);l.unshift(e);
+  const ok=dStore(l),b=document.getElementById('dSave');
+  b.textContent=ok?'✓ Im Tagebuch':'Speichern hier nicht möglich';b.disabled=true;
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderDiary(){
+  const l=dLoad(),box=document.getElementById('dList');
+  if(!l.length){box.innerHTML='<div class="card"><p>Noch keine Einträge. Tippe nach einem Ergebnis auf <b>„📔 Ins Tagebuch“</b>.</p></div>';return}
+  let h='',m='';
+  l.forEach((e,i)=>{
+    const d=new Date(e.ts),mm=d.toLocaleDateString('de-DE',{month:'long',year:'numeric'});
+    if(mm!==m){h+='<div class="month">'+mm+'</div>';m=mm}
+    h+='<details class="entry"><summary>„'+esc(e.q)+'“<small>'+d.toLocaleDateString('de-DE')+' · '+esc(e.topic)+' · '+esc(e.t)+'</small></summary>'+
+      (e.chain&&e.chain.length?'<p class="chain">Baut auf: '+e.chain.map(x=>'„'+esc(x)+'“').join(' → ')+'</p>':'')+
+      '<h3 style="margin-top:8px">'+esc(e.t)+'</h3><p>'+esc(e.v)+'</p>'+
+      e.d.map((x,j)=>'<div class="d"><b>'+(j+1)+'</b><div>'+esc(x)+'</div></div>').join('')+
+      (e.next?'<p class="next">'+esc(e.next)+'</p>':'')+
+      '<p class="honest">I Ging, Zeichen '+e.n+' – '+esc(e.name)+'</p>'+
+      '<div class="acts"><button class="ghost" data-again="'+i+'">Diese Frage erneut stellen</button><button class="ghost" data-del="'+i+'">Löschen</button></div></details>';
+  });
+  h+='<div class="row"><button class="ghost" id="dAll">Ganzes Tagebuch löschen</button></div>';
+  box.innerHTML=h;
+  box.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+    if(b.dataset.sure){const l2=dLoad();l2.splice(+b.dataset.del,1);dStore(l2);renderDiary()}
+    else{b.dataset.sure=1;b.textContent='Wirklich löschen?'}});
+  box.querySelectorAll('[data-again]').forEach(b=>b.onclick=()=>{
+    const e=dLoad()[+b.dataset.again];document.getElementById('diary').hidden=true;
+    qEl.value=e.q;btnAsk.disabled=false;go('s-ask')});
+  const all=document.getElementById('dAll');all.onclick=()=>{
+    if(all.dataset.sure){try{localStorage.removeItem(DKEY)}catch(e){}renderDiary()}
+    else{all.dataset.sure=1;all.textContent='Wirklich alles löschen? Nochmal tippen.'}};
+}
+document.getElementById('dOpen').onclick=()=>{renderDiary();document.getElementById('diary').hidden=false};
+document.getElementById('dClose').onclick=()=>document.getElementById('diary').hidden=true;
+// ---- Bunte Funken: glühender Stern, sprüht ständig, spritzt beim Berühren ----
+function Sparkler(cv,opt){
+  const ctx=cv.getContext('2d'),COLS=['#ff3d68','#ff9f1c','#ffd23f','#3ee8b5','#3fa7ff','#8a5cff','#ff6bd6'];
+  let W,H,dpr,ps=[],t0=performance.now(),boost=0;
+  function size(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  size();addEventListener('resize',size);
+  const cx=()=>W/2,cy=()=>H/2;
+  function emit(x,y,n,speed){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=(0.4+Math.random())*speed;
+    ps.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-speed*0.25,life:1,decay:0.012+Math.random()*0.02,r:1+Math.random()*2.4,c:COLS[Math.random()*COLS.length|0],tw:Math.random()*6})}}
+  function burst(x,y){emit(x,y,90,6.5);boost=1;if(navigator.vibrate)navigator.vibrate(15)}
+  cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect();
+    const x=opt&&opt.center?cx():e.clientX-r.left,y=opt&&opt.center?cy():e.clientY-r.top;burst(x,y);if(opt&&opt.onTap)opt.onTap()});
+  function star(x,y,R,rot,col){ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.beginPath();
+    for(let i=0;i<8;i++){const rr=i%2?R*0.28:R,a=i*Math.PI/4-Math.PI/2;ctx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}
+    ctx.closePath();ctx.fillStyle=col;ctx.fill();ctx.restore()}
+  function frame(now){
+    if(cv.clientWidth!==W||cv.clientHeight!==H)size();const t=(now-t0)/1000;ctx.clearRect(0,0,W,H);const dark=matchMedia('(prefers-color-scheme: dark)').matches&&document.documentElement.dataset.theme!=='light';ctx.globalCompositeOperation=dark?'lighter':'source-over';
+    // ständiges Sprühen
+    emit(cx(),cy(),Math.random()<0.5?2:1,1.8+boost*3);
+    // Herzschlag-Puls + Glühen
+    const beat=1+0.12*Math.max(0,Math.sin(t*5.2))*(Math.sin(t*2.6)>0?1:0.4)+boost*0.25,R=Math.min(W,H)*0.2*beat;
+    const g=ctx.createRadialGradient(cx(),cy(),0,cx(),cy(),R*2.2);
+    const hue=(t*40)%360;g.addColorStop(0,'hsla('+hue+',100%,65%,.35)');g.addColorStop(1,'hsla('+hue+',100%,60%,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx(),cy(),R*2.2,0,7);ctx.fill();
+    star(cx(),cy(),R,t*0.6,'hsl('+hue+',100%,62%)');star(cx(),cy(),R*0.55,-t*0.9+0.4,'hsl('+((hue+60)%360)+',100%,75%)');
+    star(cx(),cy(),R*0.18,0,'#fff');
+    // Partikel
+    ps=ps.filter(p=>p.life>0);
+    for(const p of ps){p.x+=p.vx;p.y+=p.vy;p.vy+=0.07;p.vx*=0.985;p.life-=p.decay;
+      const a=Math.max(0,p.life)*(0.6+0.4*Math.sin(t*20+p.tw));ctx.globalAlpha=a;ctx.fillStyle=p.c;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r*(0.6+p.life*0.6),0,7);ctx.fill();
+      if(p.r>2.2){ctx.globalAlpha=a*0.35;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,7);ctx.fill()}}
+    ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';boost*=0.93;
+    requestAnimationFrame(frame)}
+  requestAnimationFrame(frame);
+  return {burst:()=>burst(cx(),cy())};
+}
+Sparkler(document.getElementById('heroSpark'));
+Sparkler(document.getElementById('tapSpark'),{center:true,onTap:()=>castOne()});
+// ---- Als App installieren (wie KleinwindkraftWerk) ----
+(function(){
+  const $=id=>document.getElementById(id);let deferred=null;const inst=$('inst');
+  const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  if(standalone)inst.hidden=true;
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;inst.hidden=false});
+  addEventListener('appinstalled',()=>{inst.hidden=true;deferred=null});
+  const help=h=>{$('ihBody').innerHTML=h;$('ihelp').hidden=false};
+  $('ihClose').onclick=()=>$('ihelp').hidden=true;
+  inst.onclick=async()=>{
+    if(deferred){deferred.prompt();const r=await deferred.userChoice;if(r&&r.outcome==='accepted')inst.hidden=true;deferred=null;return}
+    const ua=navigator.userAgent;
+    if(/iPhone|iPad|iPod/.test(ua))help('<ol><li>Unten in Safari auf <b>Teilen</b> tippen (Quadrat mit Pfeil nach oben).</li><li><b>„Zum Home-Bildschirm“</b> wählen.</li><li>Oben rechts <b>„Hinzufügen“</b> tippen – fertig.</li></ol><p class="note">Apple erlaubt auf dem iPhone keine Installation per Knopf, deshalb diese drei Schritte.</p>');
+    else if(/Android/.test(ua))help('<ol><li>Oben rechts im Browser auf <b>⋮</b> tippen.</li><li><b>„App installieren“</b> oder <b>„Zum Startbildschirm hinzufügen“</b> wählen.</li></ol><p class="note">Falls kein Installationsfenster kam: Seite neu laden und den Knopf erneut drücken.</p>');
+    else help('<ol><li>In Chrome oder Edge rechts in der Adresszeile auf das <b>Installieren-Symbol</b> klicken.</li><li>Oder im Browsermenü <b>„App installieren“</b> wählen.</li></ol><p class="note">Am schönsten ist Herzfunke auf dem Handy.</p>');
+  };
+  if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>
