@@ -211,6 +211,12 @@ footer h4{margin:12px 0 4px;font-size:13px;color:var(--ink)}
 .age12 .wq,.age12 .kionly{display:none!important}
 .me{display:block;width:96px;height:96px;border-radius:50%;object-fit:cover;margin:6px auto 10px;box-shadow:0 0 0 3px var(--soft)}
 #fchips .chip{border-radius:16px}
+.pick2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.pick2>div{min-width:0}
+.pick2 h3{font-size:16px;line-height:1.2;margin-bottom:6px}
+.pick2 .pick{display:block;font-size:12px;margin-top:2px}
+.pick2 .chips,.pick2 .who{display:flex;flex-direction:column;align-items:stretch;gap:6px;margin:0}
+.pick2 .chip{font-size:13px;padding:6px 10px;border-radius:12px;text-align:left;white-space:normal;line-height:1.25}
 footer{font-size:13px;color:var(--muted);text-align:center;margin-top:24px}
 footer a{color:inherit}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
@@ -248,11 +254,19 @@ footer a{color:inherit}
 <section id="s-ask" class="hidden">
   <div class="brand" style="margin-top:20px"><span class="logo">Herzfunke</span><canvas class="spark" aria-label="Bunter Funke – tipp drauf"></canvas></div>
   <div class="card">
-    <h3>Worum geht's? <span class="pick">wähle aus</span></h3>
-    <div class="chips" id="chips"></div>
-    <h3 style="margin-top:10px">Deine Frage</h3>
+    <div class="pick2">
+      <div><h3>Worum geht's?<span class="pick">wähle aus</span></h3><div class="chips" id="chips"></div></div>
+      <div><h3>Um wen geht's?<span class="pick">wähle aus</span></h3><div class="who" id="who"></div></div>
+    </div>
+    <h3 style="margin-top:14px">Deine Frage</h3>
+    <textarea id="q" maxlength="240" placeholder="Was beschäftigt dich gerade?"></textarea>
+    <div class="yn hidden" id="yn">
+      <p>🔄 Klingt nach einer Ja/Nein-Frage. Offen gefragt wäre das zum Beispiel:</p>
+      <p class="sugg" id="ynSugg"></p>
+      <div class="row" style="margin-top:6px"><button type="button" class="ghost" id="ynTake">Übernehmen</button><button type="button" class="ghost" id="ynKeep">Passt so</button></div>
+    </div>
     <div class="tip">
-      <b>💡 So holst du mehr raus</b>
+      <b>💡 So holst du mehr aus deiner Frage raus</b>
       <p>Frag am besten offen – mit „Wie …?“, „Was …?“ oder „Was kann ich tun, wenn …?“. Dann bekommst du viel tiefere Blickwinkel als nur ein Ja oder Nein.</p>
       <button type="button" class="swap" id="swap">
         <span class="no">✗ Statt: <i id="swNo"></i></span>
@@ -261,14 +275,6 @@ footer a{color:inherit}
       </button>
       <p style="margin:10px 0 0">Dir fällt nur eine Ja/Nein-Frage ein? Kein Stress, geht auch. Es gibt kein falsches Fragen – schreib einfach auf, was dich beschäftigt.</p>
     </div>
-    <textarea id="q" maxlength="240" placeholder="Was beschäftigt dich gerade?"></textarea>
-    <div class="yn hidden" id="yn">
-      <p>🔄 Klingt nach einer Ja/Nein-Frage. Offen gefragt wäre das zum Beispiel:</p>
-      <p class="sugg" id="ynSugg"></p>
-      <div class="row" style="margin-top:6px"><button type="button" class="ghost" id="ynTake">Übernehmen</button><button type="button" class="ghost" id="ynKeep">Passt so</button></div>
-    </div>
-    <h3 style="margin-top:14px">Um wen geht's? <span class="pick">wähle aus</span></h3>
-    <div class="who" id="who"></div>
     <button class="big" id="btnAsk" disabled onclick="checkQ()">Weiter</button>
   </div>
   <div class="row"><button class="ghost" onclick="randomQ()">Ich weiß nicht, was ich fragen soll</button></div>
