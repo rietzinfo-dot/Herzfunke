@@ -554,6 +554,7 @@ function showResult(){
   document.getElementById('kiNote').classList.add('hidden');
   document.getElementById('fq').value='';document.getElementById('btnF').disabled=true;
   go('s-res');
+  saveSession();
 }
 function buildKI(r){
   const L=[];
@@ -572,6 +573,7 @@ function buildKI(r){
 }
 const APP_URL='https://rietzinfo-dot.github.io/Herzfunke/';
 function endApp(){
+  clearSession();
   qEl.value='';fq.value='';history=[];lines=[];window._last=null;who='x';whoManual=false;renderWho();
   ['rd','rlines','rnext','bild','rv','rt','echo','echo2'].forEach(id=>{const e=document.getElementById(id);if(e)e.innerHTML=''});
   go('s-bye');try{window.close()}catch(e){}
@@ -593,7 +595,7 @@ function share(){
   if(navigator.share)navigator.share({title:'Herzfunke',text:txt,url:location.href}).catch(()=>{});
   else navigator.clipboard&&navigator.clipboard.writeText(txt+' '+location.href);
 }
-function restart(){qEl.value='';btnAsk.disabled=true;history=[];who='x';whoManual=false;renderWho();go('s-ask')}
+function restart(){clearSession();qEl.value='';btnAsk.disabled=true;history=[];who='x';whoManual=false;renderWho();go('s-ask')}
 const fq=document.getElementById('fq'),btnF=document.getElementById('btnF'),fchips=document.getElementById('fchips');
 fq.addEventListener('input',()=>btnF.disabled=fq.value.trim().length<5);
 FOLLOW.forEach(x=>{const b=document.createElement('button');b.className='chip';b.textContent=x;b.onclick=()=>{fq.value=x;btnF.disabled=false};fchips.appendChild(b)});
@@ -710,6 +712,18 @@ window.placeBrands=()=>brands.forEach(b=>b.place());
 placeBrands();addEventListener('resize',placeBrands);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(placeBrands);
 Sparkler(document.getElementById('tapSpark'),{center:true,onTap:()=>castOne()});
+// ---- Sitzung merken: Wenn das Handy die App nach dem Teilen neu lädt, geht es am selben Bildschirm weiter ----
+const SKEY='herzfunke-sitzung';
+function saveSession(){try{sessionStorage.setItem(SKEY,JSON.stringify({ts:Date.now(),lines:lines,q:curQ,topic:topic,who:who,history:history}))}catch(e){}}
+function clearSession(){try{sessionStorage.removeItem(SKEY)}catch(e){}}
+(function restoreSession(){
+  let s=null;try{s=JSON.parse(sessionStorage.getItem(SKEY))}catch(e){}
+  if(!s||!s.lines||s.lines.length!==6||Date.now()-s.ts>2*3600*1000)return;
+  lines=s.lines;curQ=s.q;topic=s.topic;who=s.who;history=s.history||[];whoManual=true;
+  qEl.value=curQ;renderWho();
+  chips.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent===topic));
+  showResult();
+})();
 // ---- Als App installieren (wie KleinwindkraftWerk) ----
 (function(){
   const $=id=>document.getElementById(id);let deferred=null;const inst=$('inst');
