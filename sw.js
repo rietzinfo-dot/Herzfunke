@@ -1,6 +1,7 @@
 // Herzfunke – Offline-Speicher: App funktioniert nach dem ersten Besuch auch ohne Netz
-const CACHE = 'herzfunke-v2';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const CACHE = 'herzfunke-v10';
+const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png',
+  './fonts/nunito-latin-3.woff2'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(CORE.map(u => c.add(u).catch(() => null)))).then(() => self.skipWaiting()));
 });

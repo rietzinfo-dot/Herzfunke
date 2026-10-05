@@ -1,7 +1,7 @@
 {
   "name": "Herzfunke",
   "short_name": "Herzfunke",
-  "description": "Deine Frage. Drei Denkanstöße. Frag weiter. Ab 16, ohne Login.",
+  "description": "Deine Frage. Drei Blickwinkel. Vertiefe deinen Gedankengang. Ab 12, ohne Login.",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
