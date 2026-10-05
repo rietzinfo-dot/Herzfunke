@@ -169,7 +169,7 @@ button.big.alt{background:none;border:2px solid var(--b);color:var(--b)}
 .d{align-items:flex-start}
 .spk{flex:0 0 24px;height:24px;position:relative;display:inline-block}
 .spk canvas{position:absolute;width:64px;height:64px;left:-20px;top:-20px;pointer-events:none}
-.bild{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;margin:14px 0 4px;text-align:center}
+.bild{display:flex;align-items:flex-start;justify-content:center;gap:10px;flex-wrap:nowrap;margin:14px 0 4px;text-align:center}
 .bild>div:not(.arrow){flex:0 1 136px;min-width:0}
 .d>div b{font-weight:800}
 .hx{display:flex;flex-direction:column-reverse;gap:7px;width:122px;margin:0 auto 8px}
@@ -180,6 +180,12 @@ button.big.alt{background:none;border:2px solid var(--b);color:var(--b)}
 .hx .r .bars{gap:12px}
 .hx .r i{flex:1;border-radius:4px;background:linear-gradient(90deg,var(--a),var(--b))}
 .hxl{font-size:12px;font-weight:800;color:var(--muted);margin:0 auto;line-height:1.35}
+/* Beschriftung exakt mittig unter den Linien: Funken-Platz 20 + Abstand 6 + Zahl 11 + Abstand 6 = 43px */
+.bild .hxl,.bild .hxt{padding-left:43px;text-align:center}
+.hxt{font-size:14px;font-weight:800;color:var(--b);margin-bottom:6px}
+.bild>div:not(.arrow){width:136px}
+.bild .hx{margin:0 0 8px}
+.bild .arrow{padding-left:0;margin-top:68px}
 .arrow{font-size:26px;color:var(--b)}
 .lsec{margin-top:16px;border-top:2px dashed var(--soft);padding-top:10px}
 .lsec h3{font-size:18px;margin-bottom:4px;display:inline}
@@ -323,7 +329,7 @@ footer a{color:inherit}
   <div class="card end">
     <div class="row">
       <button class="big alt" onclick="endApp()">App beenden</button>
-      <button class="big" onclick="tellFriends()">An Freunde weitergeben</button>
+      <button class="big" onclick="tellFriends()">App an Freunde weitergeben</button>
     </div>
     <p class="hint hidden" id="tfNote" style="margin-top:8px"></p>
   </div>
@@ -501,8 +507,8 @@ function showResult(){
   let n2=null,O2=null,f2=null;
   if(movIdx.length){n2=HEX[key(y2.map(v=>v===7||v===9))][0];O2=ORAKEL[n2];f2=FUNKEN[n2]}
   // Bild(er) mit Beschriftung
-  let b='<div>'+hexHTML(lines,true)+'<div class="hxl">Zeichen '+n+'<br>'+esc(O.name)+'</div></div>';
-  if(n2)b+='<div class="arrow">→</div><div>'+hexHTML(y2,false)+'<div class="hxl">Zeichen '+n2+'<br>'+esc(O2.name)+'</div></div>';
+  let b='<div><div class="hxt">Bild 1</div>'+hexHTML(lines,true)+'<div class="hxl">Zeichen '+n+'<br>'+esc(O.name)+'</div></div>';
+  if(n2)b+='<div class="arrow">→</div><div><div class="hxt">Bild 2</div>'+hexHTML(y2,false)+'<div class="hxl">Zeichen '+n2+'<br>'+esc(O2.name)+'</div></div>';
   document.getElementById('bild').innerHTML=b;
   document.getElementById('rt').textContent=f.t;
   const pv=P(f.v),pd=f.d.map(P);
